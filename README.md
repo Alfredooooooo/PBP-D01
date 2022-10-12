@@ -1,4 +1,6 @@
-# Tugas Kelompok Pemrograman Berbasis Platform UTS Kelompok D01 T.A. 2022/2023
+<div align="center" style="padding-bottom: 10px">
+<h1>Tugas Kelompok PBP-D UTS Kelompok D01 T.A. 2022/2023</h1>
+</div>
 
 ## 👩‍💻Nama Anggota Kelompok👩‍💻
 Tugas Kelompok dibuat oleh kelompok DO1 yang beranggotakan sebagai berikut.
