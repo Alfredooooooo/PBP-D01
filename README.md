@@ -42,7 +42,7 @@ Berikut daftar modul yang akan diimplementasikan beserta peran anggota dari seti
 1. Landing Page: Alfredo
 2. Login-Register-Logout
 3. About Us Page
-4. Event Page - CRUD: Alfredo,  (3 orang)
+4. Event Page - CRUD: Alfredo, Muflih (3 orang)
 5. Event Page - Nampilin data dari database ke web (Front-end): (2 orang)
 
 
