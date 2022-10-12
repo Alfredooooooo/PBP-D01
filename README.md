@@ -5,7 +5,7 @@
 ## 👩‍💻Nama Anggota Kelompok👩‍💻
 Tugas Kelompok dibuat oleh kelompok DO1 yang beranggotakan sebagai berikut.
 - Muflih Naufal Maxi -
-- Shafanisa Alifia Suparno - 
+- Shafanisa Alifia Suparno - 2106634723
 - Alfredo Austin - 
 - Febi Claudia Damanik - 2106751884
 - Gabriel Zebaoth Krisopras Putra - 
