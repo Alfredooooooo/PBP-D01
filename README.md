@@ -16,7 +16,9 @@ https://pbp-d01.herokuapp.com/
 
 ## 📲Cerita Aplikasi📲
 #### Berikut cerita aplikasi yang diajukan berserta manfaatnya
-Aplikasi yang dibuat dengan motif memberikan informasi mengenai **daur ulang** beserta manfaatnya yang disertakan pada website. Aplikasi ini juga mengajak pengunjung web untuk **mengurangi jumlah pencemaran sampah dengan melakukan daur ulang**. Melalui event yang diadakan oleh organisasi atau kelompok tertentu, aplikasi ini mendorong semua pengunjung web untuk turut berpartisipasi dalam mewujudkan kebersihan lingkungan yang lebih baik lagi. Alasan kami memilih daur ulang sebagai topik aplikasi kami karena kami merasa terdapat **kurangnya kesadaran rakyat Indonesia untuk mendaur ulang sampah dari segi individu**. Selain itu, kami juga merasa bahwa informasi mengenai event-event daur ulang yang dapat dihadiri oleh orang yang tertarik dengan kebersihan lingkungan belum tersebar secara baik di Indonesia. Maka dari itu kami berharap aplikasi yang kami buat dapat digunakan sebagai bentuk kesadaran rakyat Indonesia tentang pentingnya kebersihan lingkungan dan wadah inisiasi untuk bergerak dalam **mewujudkan kebersihan lngkungan yang lebih baik lagi terutama di Indonesia**.
+**Re.cycle** adalah sebuah platform yang memberikan informasi terkait **daur ulang sampah** dan mengajak masyarakat untuk **mengurangi jumlah pencemaran dengan cara melakukan daur ulang sampah.** Melalui event yang diadakan oleh sebuah organisasi atau kelompok tertentu, **Re.cycle** mendorong seluruh pengunjung website untuk turut berpartisipasi dalam mewujudkan kebersihan lingkungan yang lebih baik lagi.
+
+Alasan kelompok kami memilih daur ulang sebagai topik dari aplikasi kami adalah, karena kami merasa bahwa **kurangnya kesadaran masyarakat Indonesia untuk mendaur ulang sampah.** Selain itu, kami juga merasa bahwa informasi mengenai event-event daur ulang yang dapat dihadiri oleh orang-orang yang tertarik dengan kebersihan lingkungan belum tersebar secara baik di Indonesia. Oleh karena itu, kami berharap aplikasi yang akan kami buat dapat digunakan sebagai bentuk kesadaran masyarakat Indonesia tentang pentingnya kebersihan lingkungan dan sebagai wadah untuk bergerak dalam **mewujudkan kebersihan lingkungan yang lebih baik lagi terutama di Indonesia.**
 
 ### Daftar modul yang akan diimplementasikan
 1. Landing Page: Deskripsi atau penjelasan singkat tentang daur ulang, manfaat daur ulang, testimoni
@@ -40,7 +42,7 @@ Berikut daftar modul yang akan diimplementasikan beserta peran anggota dari seti
 
 ## ⛽Pembagian Tugas⛽
 1. Landing Page: Alfredo
-2. Login-Register-Logout
+2. Login-Register-Logout : Alifia
 3. About Us Page
 4. Event Page - CRUD: Alfredo, Muflih (3 orang)
 5. Event Page - Nampilin data dari database ke web (Front-end): (2 orang)
