@@ -11,8 +11,7 @@ Tugas Kelompok dibuat oleh kelompok DO1 yang beranggotakan sebagai berikut.
 - Gabriel Zebaoth Krisopras Putra - 2106751480
 - Sayyid Hafidzurrahman Atstsaqofi - 2106651925
 
-## 🔗Link Heroku App🔗
-https://pbp-d01.herokuapp.com/
+## :rocket: [Heroku Link](https://pbp-d01.herokuapp.com/)
 
 ## 📲Cerita Aplikasi📲
 #### Berikut cerita aplikasi yang diajukan berserta manfaatnya
