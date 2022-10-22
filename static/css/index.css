@@ -42,32 +42,6 @@ body {
     opacity: 0.9;
 }
 
-.custom-nav {
-    position: relative;
-    font-weight: 500;
-    font-size: 1.1rem;
-}
-
-.custom-nav .navbar-collapse {
-    margin-left: -2.4em;
-}
-
-.custom-nav .navbar-nav a {
-    text-transform: uppercase;
-    transition: 0.3s color ease;
-}
-
-.custom-nav .navbar-nav a:hover {
-    color: #359f92;
-    font-weight: 500;
-}
-
-.custom-nav .navbar-nav img {
-    width: 90px;
-    height: 102px;
-    margin-top: 1em;
-}
-
 .custom-section {
     position: relative;
     width: 60%;
@@ -209,9 +183,6 @@ body {
 
     .custom-section p {
         line-height: 2;
-    }
-    .custom-collapse ul {
-        margin-left: 2.4rem;
     }
 }
 
