@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>About Us</title>
+<link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
+<link href="{% static 'css/about-us.css' %}" rel="stylesheet" />
+{% endblock meta %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+
+
+{% endblock content %}
