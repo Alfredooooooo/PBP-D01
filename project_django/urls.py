@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('recycle.urls')),
     path('event/',include('event.urls')),
+    path('forum/', include('forum.urls'))
 ]
 
 # TODO: Implement Routings Here
