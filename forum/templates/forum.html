@@ -5,6 +5,11 @@
 <title>Forum</title>
 <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
 <style>
+    html, body {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
     .comment{
       background-color: #8beadf;
       transition: background-color 0.3s;
@@ -36,6 +41,7 @@
       background-position: center;
       background-attachment: fixed;
       background-size: 100% auto;
+      flex-grow: 1;
     }
 </style>
 {% endblock meta %}
@@ -97,6 +103,7 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
             htmlString += `\n<p class="card-text">${item.fields.comment_text}</p>`
             htmlString += `\n<p class="card-text" align="right">
             <input id="button${item.pk}" type="button" class="btn btn-primary" value="Reply" onclick="toggleForm(${item.pk})">
+            <input type="button" class="btn btn-danger" value="Delete" onclick="deleteComment(${item.pk})">
             </p>`
             htmlString += `\n</div></div><br>`
             htmlString += `\n<form class="reply" method="POST" id="form${item.pk}" onsubmit="return false;">`
@@ -112,6 +119,14 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
   
     function addComment(id) {
       fetch(`/forum/add/{{forum_data.id}}/${id}/`, {
+            method: "POST",
+            body: new FormData(document.querySelector(`#form${id}`))
+        }).then(refreshComments)
+      return false
+    }
+
+    function deleteComment(id) {
+      fetch(`/forum/delete/${id}/`, {
             method: "POST",
             body: new FormData(document.querySelector(`#form${id}`))
         }).then(refreshComments)
