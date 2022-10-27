@@ -1,16 +1,27 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block meta %}
 <title>Forum</title>
+<link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
 <style>
-    .card{
+    .comment{
       background-color: #8beadf;
       transition: background-color 0.3s;
       margin: auto; 
       width: 70%;
     }
-    .card:hover{
+    .comment:hover{
       background-color: #68dfd1;
+    }
+    .event{
+      background-color: #86BC30;
+      transition: background-color 0.3s;
+      margin: auto; 
+      width: 90%;
+    }
+    .event:hover{
+      background-color: #7cad2c;
     }
     .reply{
       margin: auto;
@@ -19,21 +30,46 @@
       transition: height 0.4s;
       visibility: hidden;
     }
+    #isi {
+      background-image: url("/static/img/forumbg.jpg");
+      background-position: center;
+      background-attachment: fixed;
+      background-size: 100% auto;
+    }
 </style>
 {% endblock meta %}
 
 {% block content %}
 
-<p>{{forum_data.create_date}}</p>
-<p>{{forum_data.title}}</p>
-<form method="POST" id="form0" onsubmit="return false;">
-  {% csrf_token %}
-  <input id="comment_text" type="text" name="comment_text" placeholder="Comment" class="form-control">
-  <input type="submit" value="Submit" onclick="addComment(0)">
-</form>
-<div id="comments"></div>
+{% include 'navbar.html' %}
+<div id="isi">
 
-<p class="text-secondary text-center">Sesi terakhir login: {{ last_login }}</p>
+<br>
+<div id="eventinfo" class="card shadow-lg event">
+  <div class="card-header text-white" style="background-color: #3A825C;">
+    <div class="fw-bold">{{forum_data.title}}</div>
+    <div>Created by <span class="fw-bold">{{forum_data.user}}</span></div>
+    <div style="text-align:right">Start time: {{forum_data.start_date}}</div>
+    <div style="text-align:right">End time: {{forum_data.finish_date}}</div>
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{forum_data.description}}</p>
+    <p class="card-text" align="right">
+      <input id="button1" type="button" class="btn btn-primary" value="Reply" onclick="toggleForm(0)">
+    </p>
+  </div>
+</div>
+<br>
+<form class="reply" method="POST" id="form0" onsubmit="return false;">
+  {% csrf_token %}
+  <input id="comment_text" type="text" name="comment_text" placeholder="Comment" class="form-control m-2">
+  <input type="submit" value="Submit" onclick="addComment(0)" class="m-2 btn btn-success">
+</form>
+<br>
+
+<div id="comments"></div>
+Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-recycle-lettering_21095084.htm#query=recycle&position=6&from_view=search&track=sph">Freepik</a>
+</div>
 
 <script>
     var CSRF_TOKEN  = '{{ csrf_token }}'
@@ -47,8 +83,8 @@
           const comments = await getComments()
           let htmlString = ``
           comments.forEach((item) => {
-            htmlString += `\n<div id="comment${item.pk}" class="card shadow-lg">`
-            htmlString += `\n <div class="card-header text-white" style="background-color: #359f92;">
+            htmlString += `\n<div id="comment${item.pk}" class="card shadow-lg comment">`
+            htmlString += `\n<div class="card-header text-white" style="background-color: #359f92;">
                 <div class="fw-bold">${item.fields.username}</div>`
             const date = new Date(`${item.fields.datetime}`)
             htmlString += `<div style="text-align:right">${date}</div>
