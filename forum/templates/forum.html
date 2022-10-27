@@ -28,6 +28,7 @@
       height: 0;
       width: 70%;
       transition: height 0.4s;
+      display: none;
       visibility: hidden;
     }
     #isi {
@@ -55,7 +56,7 @@
   <div class="card-body">
     <p class="card-text">{{forum_data.description}}</p>
     <p class="card-text" align="right">
-      <input id="button1" type="button" class="btn btn-primary" value="Reply" onclick="toggleForm(0)">
+      <input id="button0" type="button" class="btn btn-primary" value="Add a new comment" onclick="toggleForm(0)">
     </p>
   </div>
 </div>
@@ -63,7 +64,7 @@
 <form class="reply" method="POST" id="form0" onsubmit="return false;">
   {% csrf_token %}
   <input id="comment_text" type="text" name="comment_text" placeholder="Comment" class="form-control m-2">
-  <input type="submit" value="Submit" onclick="addComment(0)" class="m-2 btn btn-success">
+  <input type="submit" value="Send" onclick="addComment(0)" class="m-2 btn btn-success">
 </form>
 <br>
 
@@ -101,7 +102,7 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
             htmlString += `\n<form class="reply" method="POST" id="form${item.pk}" onsubmit="return false;">`
             htmlString += `\n<input type="hidden" name="csrfmiddlewaretoken" value="${CSRF_TOKEN}">`
             htmlString += `\n<input id="comment_text" type="text" name="comment_text" placeholder="Comment" class="form-control m-2">`
-            htmlString += `\n<input type="submit" value="Submit" onclick="addComment(${item.pk})" class="m-2 btn btn-success">`
+            htmlString += `\n<input type="submit" value="Send" onclick="addComment(${item.pk})" class="m-2 btn btn-success">`
             htmlString += `\n</form>`
             htmlString += `<br>`
           })
@@ -120,16 +121,23 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
     function toggleForm(id) {
       const reply = document.getElementById(`form${id}`)
       const button = document.getElementById(`button${id}`)
-      console.log(reply.style.visibility)
-      if (reply.style.visibility == "hidden" || reply.style.visibility == ""){
+      console.log(reply.style.display)
+      if (reply.style.display == "none" || reply.style.display == ""){
+        reply.style.display = "block";
         reply.style.visibility = "visible";
-        reply.style.height = "100px";
+        setTimeout(function(){reply.style.height = "100px";}, 1);
         button.value = "Hide";
       }
       else {
-        reply.style.height = "0";
+        reply.style.height = "0px";
         reply.style.visibility = "hidden";
-        button.value = "Reply";
+        setTimeout(function(){reply.style.display = "none";}, 400);
+        if(id == 0){
+          button.value = "Add a new comment";
+        }
+        else{
+          button.value = "Reply";
+        }
       }
       return false
     }
