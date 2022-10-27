@@ -19,6 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('recycle.urls')),
+    path('admin/', include('admin.urls')),
 ]
 
 # TODO: Implement Routings Here
