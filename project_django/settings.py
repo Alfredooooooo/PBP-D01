@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'recycle',
     'event',
     'forum',
-    'admin',
+    'adminpage',
 ]
 
 MIDDLEWARE = [
