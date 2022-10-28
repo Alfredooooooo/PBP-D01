@@ -56,13 +56,21 @@
   <div class="card-header text-white" style="background-color: #3A825C;">
     <div class="fw-bold">{{forum_data.title}}</div>
     <div>Created by <span class="fw-bold">{{forum_data.user}}</span></div>
+    {% if logged_in %}
     <div style="text-align:right">Start time: {{forum_data.start_date}}</div>
     <div style="text-align:right">End time: {{forum_data.finish_date}}</div>
+    {% endif %}
   </div>
   <div class="card-body">
+    {% if logged_in %}
     <p class="card-text">{{forum_data.description}}</p>
+    {% else %}
+    <p class="card-text">Please log in to get more detailed information.</p>
+    {% endif %}
     <p class="card-text" align="right">
+      {% if logged_in %}
       <input id="button0" type="button" class="btn btn-primary" value="Add a new comment" onclick="toggleForm(0)">
+      {% endif %}
     </p>
   </div>
 </div>
@@ -80,6 +88,8 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
 
 <script>
     var CSRF_TOKEN  = '{{ csrf_token }}'
+    var username = `{{ request.user.username }}`
+    var logged_in = `{{ logged_in }}`
     async function getComments() {
       return fetch('/forum/json/{{forum_data.id}}/').then((res) => res.json())
     }
@@ -101,10 +111,14 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
               htmlString += `\n<a class="card-text" href="#comment${item.fields.parent_pk}">Replying to ${item.fields.parent_username}</a>`
             }
             htmlString += `\n<p class="card-text">${item.fields.comment_text}</p>`
-            htmlString += `\n<p class="card-text" align="right">
-            <input id="button${item.pk}" type="button" class="btn btn-primary" value="Reply" onclick="toggleForm(${item.pk})">
-            <input type="button" class="btn btn-danger" value="Delete" onclick="deleteComment(${item.pk})">
-            </p>`
+            htmlString += `\n<p class="card-text" align="right">`
+            if(logged_in == `True`){
+              htmlString += `\n<input id="button${item.pk}" type="button" class="btn btn-primary" value="Reply" onclick="toggleForm(${item.pk})">`
+            }
+            if(`${item.fields.username}` == username){
+              htmlString += `\n<input type="button" class="btn btn-danger" value="Delete" onclick="deleteComment(${item.pk})">`
+            }
+            htmlString += `\n</p>`
             htmlString += `\n</div></div><br>`
             htmlString += `\n<form class="reply" method="POST" id="form${item.pk}" onsubmit="return false;">`
             htmlString += `\n<input type="hidden" name="csrfmiddlewaretoken" value="${CSRF_TOKEN}">`
