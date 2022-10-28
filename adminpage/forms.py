@@ -5,3 +5,4 @@ class TaskForm(forms.Form):
     description = forms.CharField(label="Deskripsi", widget=forms.Textarea)
     start_date = forms.CharField(label="Start Date", widget=forms.Textarea)
     finish_date = forms.CharField(label="Finish Date", widget=forms.Textarea)
+

@@ -6,10 +6,8 @@
 <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
 <link href="{% static 'css/adminpage.css' %}" rel="stylesheet" />
 {% endblock meta %}
-
 {% block content %}
     {% include 'navbar.html' %}
-      <title>Admin Page</title>
       <body>
           <script>
               function getData(){
@@ -20,7 +18,6 @@
               function showData(data){
                   if (data.length == 0){
                       let msg = `<div class="msg text-center">
-                      <a>is an EMPTY TO DO LIST EVER POSSIBLE?🤔</a>
                       </div>`;
                       document.getElementById('task-cards').innerHTML = msg;
                   } else {
@@ -105,16 +102,15 @@
               })
           </script>
               <nav class="navbar navbar-dark bg-mynav">
-                <div class="container-fluid">
-                  <h3>Admin Page</h3>
+              <h3>Admin Page</h3>
                 </div>
               </nav>
-          <nav class="navbar navbar-expand-sm mb-3 p-2" style="background-color: #FFFF;">
+              </div>
               <div class="container-fluid" >
                   <span class="navbar-brand m-2 h-1 fw-bold">
                       <ul class="navbar-nav ml-auto">
-                          <li><button type="button" class="button3" data-bs-toggle="modal" data-bs-target="#add-new-task">➕Create Event</button></li>
-                            </div>
+                          <li><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-new-task">➕Add Event</button></li>
+                          </div>
                           </nav>
                       </ul>
                   </span>
@@ -124,7 +120,7 @@
               <div class="modal-dialog">
                   <div class="modal-content">
                       <div class="modal-header">
-                          <h3 style="color:black" class="header_style4" id="staticBackdropLabel">Add</h1>
+                          <h4 style="color:black" class="header_style4" id="staticBackdropLabel">Add Event</h4>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetForm()"></button>
                       </div>
                       <div class="modal-body">
@@ -149,7 +145,7 @@
                               <div class="modal-footer">
                               <div class="task-button">
                                   <a><button type="button" class="button4" data-bs-dismiss="modal" onclick="resetForm()">Discard</button></a>
-                                  <a><button type="submit" class="button2">Add Task</button></a>
+                                  <a><button type="submit" class="button2" >Add Task</button></a>
                               </div>
                               </div>
                           </form>
@@ -157,8 +153,7 @@
                   </div>
               </div>
           </div>
-          <div class="container">
-              <div class="card-body">
+          <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
                   <h2>⌞LIST EVENTS⌝</h2>
                   <div id="task-cards"></div> </div> </div> 
                   {% if messages %}
@@ -169,22 +164,18 @@
                       </div>
                       {% endfor %}
                   {% endif %}
-            <!-- Footer-->
-            <section class="footer" id="footer">
-                        <div class="col-md-4  col-sm-6">
-                        <footer class="site-footer">
-                          <div id="footer-content">
-                            <h1>Contact Person</h1>
-                                <p></i>🏦 Universitas Indonesia, Depok</p>
-                                <p></i>📱 (061)322849</p>
-                                <p></i>📩 re.cycle@ui.ac.id</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Footer - Copyright -->
-                
+                  <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
+                  <h2>⌞COMMENTS & FEEDBACK⌝</h2> </div>
+            <div class="text-center">
+            <img src="https://www.recycleit.co.uk/wp-content/uploads/2020/05/HomePageBannerTruck.png" class="img-fluid" alt="Responsive image">
+<footer class="text-center text-white" style="background-color: #f1f1f1;">
+  <!-- Copyright -->
+  <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    ©2022 Copyright:
+    <a class="text-dark" href="https://pbp-d01.herokuapp.com/">re.cycle</a>
+  </div>
+  <!-- Copyright -->
+</footer>
             </section>
 
             {% endblock %}
