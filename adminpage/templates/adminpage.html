@@ -1,1 +1,193 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Admin Page</title>
+<link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
+<link href="{% static 'css/adminpage.css' %}" rel="stylesheet" />
+{% endblock meta %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+      <title>Admin Page</title>
+      <body>
+          <script>
+              function getData(){
+                $.get('/adminpage/json/', function(data){
+                  showData(data);
+                })
+              };
+              function showData(data){
+                  if (data.length == 0){
+                      let msg = `<div class="msg text-center">
+                      <a>is an EMPTY TO DO LIST EVER POSSIBLE?🤔</a>
+                      </div>`;
+                      document.getElementById('task-cards').innerHTML = msg;
+                  } else {
+                      let card = '';
+                      for (let task of data){
+                      if (task.fields.is_ended){
+                          card += `
+                                  <div class="card">
+                                      <h4><b>┃${task.fields.title}┃</b></h4>
+                                      <p>📅${task.fields.create_date}</p>
+                                      <p>✍Description ➜ ${task.fields.description}<</p>
+                                      <p>➖ONGOING➖</p>
+                                      <div class = "task-button">
+                                          <a href="/adminpage/update-status/${task.pk}"><button class="button2" type="submit">Status🔄</button></a>
+                                          <a href="/adminpage/delete-task/${task.pk}"><button class="button2" type="submit">Remove❌</button></a>
+                                      </div>
+                                  </div>`;
+                      } else{
+                          card += `
+                                  <div class="card">
+                                      <h4><b>┃${task.fields.title}┃</b></h4>
+                                      <p>📅${task.fields.create_date}</p>
+                                      <p>Start Date ➜ ${task.fields.start_date}</p>
+                                      <p>✍Description ➜ ${task.fields.description}</p>
+                                      <p>➖ENDED➖</p>
+                                      <div class = "task-button"> 
+                                          <a href="/adminpage/update-status/${task.pk}"><button class="button2" type="submit" role="button">Status🔄</button></a>
+                                          <a href="/adminpage/delete-task/${task.pk}"><button class="button2" type="submit" onclick="deleteData(${task.pk} role="button")>Remove❌</button></a>
+                                      </div>
+                                  </div>`;
+                      } 
+                      };
+                      document.getElementById('task-cards').innerHTML = card;
+                  };  
+              };
+              function resetForm(){
+              $("#new-task")[0].reset();
+              }
+              
+              function deleteTask(id){
+              $.ajax({
+                  type: 'DELETE',
+                  url: '/adminpage/delete-task/' + id,
+                  dataType: 'json',
+                  headers: {
+                      "X-CSRFTOKEN": "{{ csrf_token }}"
+                  },
+                  success: function(data){
+                  console.log("Berhasil dihapus");
+                  getData();
+                  }
+              })
+              }
+              $(document).ready(function(){
+              getData();
+              $("button").click(function (){
+                  getData();
+              });
+              });
+              $(document).on('submit', '#new-task', function(e){
+              e.preventDefault();
+              $.ajax({
+                  type: 'POST',
+                  url: '/adminpage/add/',
+                  data: {
+                  title: $('#title').val(),
+                  description: $('#description').val(),
+                  start_date: $('#start_date').val(),
+                  finish_date: $('#finish_date').val(),
+                  csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                  action:'post',
+                  },
+                  dataType: 'json',
+                  success: function(data){
+                  console.log("Event Created Successfully");
+                  getData();
+                  $('#add-new-task').modal('hide');
+                  $('.modal-backdrop').remove();
+                  resetForm()
+                  }
+              })
+              })
+          </script>
+              <nav class="navbar navbar-dark bg-mynav">
+                <div class="container-fluid">
+                  <h3>Admin Page</h3>
+                </div>
+              </nav>
+          <nav class="navbar navbar-expand-sm mb-3 p-2" style="background-color: #FFFF;">
+              <div class="container-fluid" >
+                  <span class="navbar-brand m-2 h-1 fw-bold">
+                      <ul class="navbar-nav ml-auto">
+                          <li><button type="button" class="button3" data-bs-toggle="modal" data-bs-target="#add-new-task">➕Create Event</button></li>
+                            </div>
+                          </nav>
+                      </ul>
+                  </span>
+              </div>
+          </nav>
+          <div class="modal fade" id="add-new-task" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h3 style="color:black" class="header_style4" id="staticBackdropLabel">Add</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetForm()"></button>
+                      </div>
+                      <div class="modal-body">
+                          <form method="POST" action="" id="new-task">
+                              {% csrf_token %}
+                              <div class="m-3 p-1">
+                                  <label for="input" class="form-label h5">Title:</label>
+                                  <input type="text" name="title" class="form-control" id="title" placeholder="Task title" required>
+                              </div>
+                              <div class="m-3 p-1">
+                                  <label for="input" class="form-label h5">Description:</label>
+                                  <input type="text" name="description" class="form-control" id="description" placeholder="Task description" rows="5">
+                              </div>
+                              <div class="m-3 p-1">
+                                <label for="input" class="form-label h5">Start Date:</label>
+                                <input type="text" name="description" class="form-control" id="description" placeholder="Task description" rows="5">
+                            </div>
+                            <div class="m-3 p-1">
+                              <label for="input" class="form-label h5">Finish Date:</label>
+                              <input type="text" name="description" class="form-control" id="description" placeholder="Task description" rows="5">
+                            </div>
+                              <div class="modal-footer">
+                              <div class="task-button">
+                                  <a><button type="button" class="button4" data-bs-dismiss="modal" onclick="resetForm()">Discard</button></a>
+                                  <a><button type="submit" class="button2">Add Task</button></a>
+                              </div>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="container">
+              <div class="card-body">
+                  <h2>⌞LIST EVENTS⌝</h2>
+                  <div id="task-cards"></div> </div> </div> 
+                  {% if messages %}
+                      {% for message in messages %}
+                      <div class="alert alert-primary alert-dismissible fade show mx-4" role="alert">
+                          {{message}}
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                      {% endfor %}
+                  {% endif %}
+            <!-- Footer-->
+            <section class="footer" id="footer">
+                        <div class="col-md-4  col-sm-6">
+                        <footer class="site-footer">
+                          <div id="footer-content">
+                            <h1>Contact Person</h1>
+                                <p></i>🏦 Universitas Indonesia, Depok</p>
+                                <p></i>📱 (061)322849</p>
+                                <p></i>📩 re.cycle@ui.ac.id</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer - Copyright -->
+                
+            </section>
+
+            {% endblock %}
+        </div>
+
+    </div> 
