@@ -96,7 +96,6 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
   
     async function refreshComments() {
 
-          document.getElementById("comments").innerHTML = ""
           const comments = await getComments()
           let htmlString = ``
           comments.forEach((item) => {
