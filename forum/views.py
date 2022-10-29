@@ -9,7 +9,7 @@ def show_forum(request, id):
     data_forum = Event.objects.get(id=id)
     context = {
         'forum_data': data_forum,
-        # 'last_login': request.COOKIES['last_login'],
+        'logged_in': request.user.is_authenticated,
     }
     return render(request, 'forum.html', context)
 
@@ -19,7 +19,7 @@ def get_comments_json(request, id):
     return HttpResponse(serializers.serialize('json', comments))
 
 def add_comment(request, id1, id2):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         new_comment = Comment()
         new_comment.user = request.user
         new_comment.username = request.user.username
