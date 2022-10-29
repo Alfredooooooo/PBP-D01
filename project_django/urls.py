@@ -20,7 +20,6 @@ urlpatterns = [
     path('', include('recycle.urls')),
     path('event/',include('event.urls')),
     path('forum/', include('forum.urls')),
-    path('forum/', include('forum.urls')),
     path('adminpage/', include('adminpage.urls')),
 ]
 
