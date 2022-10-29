@@ -1,5 +1,5 @@
 from django.urls import path
-from recycle.views import index, about_us, objectives, event, login, logout, register
+from recycle.views import index, about_us, objectives, event, login, logout, register, adminpage
 
 app_name = 'recycle'
 
@@ -11,4 +11,6 @@ urlpatterns = [
     path("login/", login, name="login"),
     path("logout/", logout, name="logout"),
     path("register/", register, name="register"),
+    path("adminpage/", adminpage, name="adminpage"),
 ]
+

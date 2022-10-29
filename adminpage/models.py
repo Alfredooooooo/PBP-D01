@@ -3,9 +3,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Task(models.Model):
+class TaskAdmin(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField()
     title = models.CharField(max_length=150)
+    create_date = models.DateTimeField()
+    start_date = models.DateTimeField()
+    finish_date = models.DateTimeField()
     description = models.TextField()
-    is_finished = models.BooleanField(default=False)

@@ -11,22 +11,20 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from recycle.forms import RegisterUserForm
 
-
 def index(request):
     return render(request, 'index.html')
-
 
 def about_us(request):
     return render(request, 'about-us.html')
 
-
 def objectives(request):
     return render(request, 'objectives.html')
-
 
 def event(request):
     return render(request, 'event.html')
 
+def adminpage(request):
+    return render(request, 'adminpage.html')
 
 def register(request):
     # Memanggil RegisterUserForm yang merupakan anak dari UserCreationForm

@@ -1,4 +1,181 @@
-{% extends 'base.html' %}
-{% block content %}
-  <h1>test-test</h1>
-{% endblock content %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link rel="stylesheet" href="\static\css\manage-event.css">
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"/>
+    <link rel="stylesheet" " href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/af-2.4.0/b-2.2.3/date-1.1.2/fc-4.1.0/fh-3.2.4/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.7/sb-1.3.4/sp-2.0.2/sl-1.4.0/sr-1.1.1/datatables.min.css"/>
+  </head>
+  <body>
+    <div class="container">
+        <div class="d-flex justify-content-sm-center justify-content-lg-end justify-content-md-end justify-content-center"><button type="button"  id="createNewEvent" class="btn btn-outline-success m-2" data-toggle = "modal" data-target = "#createEventModal">Tambah Tugas Baru</button></div>
+        <div class="row">
+            <table id="example" class="table table-striped" style="width:100%">
+
+                <thead >
+                    <tr>
+                        <th>Created date</th>
+                        <th>Title</th>
+                        <th>Brief</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th>Finish Date</th>
+                        <th>Command</th>
+                    </tr>
+                </thead>
+                <tbody id="event-table-body">
+                    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Created date</th>
+                        <th>Title</th>
+                        <th>Brief</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th>Finish Date</th>
+                        <th>Command</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="createEventModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modelHeading">Tambah Event Baru</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger error-msg" style="display:none">
+                        <ul class="mb-0"></ul>
+                    </div>
+                    <form method="POST" id="createEventForm" name="createEventForm" class="form-horizontal" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" id="post_id">
+                        <div class="form-group">
+                            <label for="title" class="col-sm-2 control-label">Judul</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Tulis Judul Event" value="" maxlength="50">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="brief" class="col-sm-2 control-label">Deskripsi singkat</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="brief" name="brief" placeholder="Tulis Deskripsi Singkat Event" value="" maxlength="50">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="col-sm-2  control-label">Deskripsi</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="description" name="description" placeholder="Tulis Deskrpsi Lengkap Event" value="" maxlength="50">
+                            </div>
+                        </div>
+           
+                        <div class="form-group">
+                            <label for="start_date" class="col-sm-2 control-label">Tanggal dan Waktu Mulai</label>
+                            <div class="col-sm-12">
+                                <input data-format="dd/MM/yyyy hh:mm:ss" type="datetime-local" class="form-control" id="start_date" name="start_date"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="finish_date" class="col-sm-2 control-label">Tanggal dan Waktu Selesai</label>
+                            <div class="col-sm-12">
+                                <input data-format="dd/MM/yyyy hh:mm:ss" type="datetime-local" class="form-control" id="finish_date" name="finish_date"></input>
+                            </div>
+                        </div>
+            
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-primary" data-dismiss="modal fade" >Add Event</button>
+                          <button type="button" class="btn btn-secondary" onClick="closeModal()" data-dismiss="modal fade">Close</button>
+                      </div>
+    
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editEventModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modelHeading">Tambah Event Baru</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger error-msg" style="display:none">
+                            <ul class="mb-0"></ul>
+                        </div>
+                        <form  id="editEventForm" name="editEventForm" class="form-horizontal" novalidate>
+                            {% csrf_token %}
+                            <input type="hidden" name="post_id" id="post_id">
+                            <div class="form-group">
+                                <label for="title" class="col-sm-2 control-label">Judul</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="title-edit" name="title" placeholder="Tulis Judul Event" value="" maxlength="50">
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="brief" class="col-sm-2 control-label">Deskripsi singkat</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="brief-edit" name="brief" placeholder="Tulis Deskripsi Singkat Event" value="" maxlength="50">
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="description" class="col-sm-2  control-label">Deskripsi</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="description-edit" name="description" placeholder="Tulis Deskrpsi Lengkap Event" value="" maxlength="50">
+                                </div>
+                            </div>
+               
+                            <div class="form-group">
+                                <label for="start_date" class="col-sm-2 control-label">Tanggal dan Waktu Mulai</label>
+                                <div class="col-sm-12">
+                                    <input data-format="dd/MM/yyyy hh:mm:ss" type="datetime-local" class="form-control" id="start_date-edit" name="start_date"></input>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="finish_date" class="col-sm-2 control-label">Tanggal dan Waktu Selesai</label>
+                                <div class="col-sm-12">
+                                    <input data-format="dd/MM/yyyy hh:mm:ss" type="datetime-local" class="form-control" id="finish_date-edit" name="finish_date"></input>
+                                </div>
+                            </div>
+                
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary" id="button-edit" data-dismiss="modal fade" >Update Event</button>
+                              <button type="button" class="btn btn-secondary" id="button-close-edit" onClick="closeModal()" data-dismiss="modal fade">Close</button>
+                          </div>
+        
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript"src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/af-2.4.0/b-2.2.3/date-1.1.2/fc-4.1.0/fh-3.2.4/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.7/sb-1.3.4/sp-2.0.2/sl-1.4.0/sr-1.1.1/datatables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>   
+        <script type="text/javascript"  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+        <script  type="text/javascript"src="\static\js\manage-event.js"></script>
+    
+</body>
+</html>
