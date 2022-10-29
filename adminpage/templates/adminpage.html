@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+ 
 {% block meta %}
 <title>Admin Page</title>
 <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
@@ -8,99 +8,74 @@
 {% endblock meta %}
 {% block content %}
     {% include 'navbar.html' %}
-      <body>
-          <script>
-              function getData(){
-                $.get('/adminpage/json/', function(data){
-                  showData(data);
-                })
-              };
-              function showData(data){
-                  if (data.length == 0){
-                      let msg = `<div class="msg text-center">
-                      </div>`;
-                      document.getElementById('task-cards').innerHTML = msg;
-                  } else {
-                      let card = '';
-                      for (let task of data){
-                      if (task.fields.is_ended){
-                          card += `
-                                  <div class="card">
-                                      <h4><b>┃${task.fields.title}┃</b></h4>
-                                      <p>📅${task.fields.create_date}</p>
-                                      <p>✍Description ➜ ${task.fields.description}<</p>
-                                      <p>➖ONGOING➖</p>
-                                      <div class = "task-button">
-                                          <a href="/adminpage/update-status/${task.pk}"><button class="button2" type="submit">Status🔄</button></a>
-                                          <a href="/adminpage/delete-task/${task.pk}"><button class="button2" type="submit">Remove❌</button></a>
-                                      </div>
-                                  </div>`;
-                      } else{
-                          card += `
-                                  <div class="card">
-                                      <h4><b>┃${task.fields.title}┃</b></h4>
-                                      <p>📅${task.fields.create_date}</p>
-                                      <p>Start Date ➜ ${task.fields.start_date}</p>
-                                      <p>✍Description ➜ ${task.fields.description}</p>
-                                      <p>➖ENDED➖</p>
-                                      <div class = "task-button"> 
-                                          <a href="/adminpage/update-status/${task.pk}"><button class="button2" type="submit" role="button">Status🔄</button></a>
-                                          <a href="/adminpage/delete-task/${task.pk}"><button class="button2" type="submit" onclick="deleteData(${task.pk} role="button")>Remove❌</button></a>
-                                      </div>
-                                  </div>`;
-                      } 
-                      };
-                      document.getElementById('task-cards').innerHTML = card;
-                  };  
-              };
-              function resetForm(){
-              $("#new-task")[0].reset();
-              }
-              
-              function deleteTask(id){
-              $.ajax({
-                  type: 'DELETE',
-                  url: '/adminpage/delete-task/' + id,
-                  dataType: 'json',
-                  headers: {
-                      "X-CSRFTOKEN": "{{ csrf_token }}"
-                  },
-                  success: function(data){
-                  console.log("Berhasil dihapus");
-                  getData();
-                  }
-              })
-              }
-              $(document).ready(function(){
-              getData();
-              $("button").click(function (){
-                  getData();
-              });
-              });
-              $(document).on('submit', '#new-task', function(e){
-              e.preventDefault();
-              $.ajax({
-                  type: 'POST',
-                  url: '/adminpage/add/',
-                  data: {
-                  title: $('#title').val(),
-                  description: $('#description').val(),
-                  start_date: $('#start_date').val(),
-                  finish_date: $('#finish_date').val(),
-                  csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                  action:'post',
-                  },
-                  dataType: 'json',
-                  success: function(data){
-                  console.log("Event Created Successfully");
-                  getData();
-                  $('#add-new-task').modal('hide');
-                  $('.modal-backdrop').remove();
-                  resetForm()
-                  }
-              })
-              })
-          </script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('#btnAdd').on('click', function () {
+                    var title, description, id;
+                    id = $("#txtId").val();
+                    title = $("#txttitle").val();
+                    description = $("#txtdescription").val();
+ 
+                    var edit = "<a class='edit' href='JavaScript:void(0);' >Edit</a>";
+                    var del = "<a class='delete' href='JavaScript:void(0);'>Delete</a>";
+ 
+                    if (title == "" || description == "") {
+                        alert("title and description fields required!");
+                    } else {
+                        var table = "<tr><td>" + id + "</td><td>" + title + "</td><td>" + description + "</td><td>" + edit + "</td><td>" + del + "</td></tr>";
+                        $("#tblCustomers").append(table);
+                    }
+                    id = $("#txtId").val("");
+                    title = $("#txttitle").val("");
+                    description = $("#txtdescription").val("");
+                    Clear();
+                });
+ 
+                $('#btnUpdate').on('click', function () {
+                    var title, description, id;
+                    id = $("#txtId").val();
+                    title = $("#txttitle").val();
+                    description = $("#txtdescription").val();
+ 
+                    $('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(1).html(title);
+                    $('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(2).html(description)
+ 
+                    $('#btnAdd').show();
+                    $('#btnUpdate').hide();
+                    Clear();
+                });
+ 
+                $("#tblCustomers").on("click", ".delete", function (e) {
+                    if (confirm("Are you sure want to delete this record!")) {
+                        $(this).closest('tr').remove();
+                    } else {
+                        e.preventDefault();
+                    }
+                });
+ 
+                $('#btnClear').on('click', function () {
+                    Clear();
+                });
+ 
+                $("#tblCustomers").on("click", ".edit", function (e) {
+                    var row = $(this).closest('tr');
+                    $('#hfRowIndex').val($(row).index());
+                    var td = $(row).find("td");
+                    $('#txtId').val($(td).eq(0).html());
+                    $('#txttitle').val($(td).eq(1).html());
+                    $('#txtdescription').val($(td).eq(2).html());
+                    $('#btnAdd').hide();
+                    $('#btnUpdate').show();
+                });
+            });
+            function Clear() {
+                $("#txtId").val("");
+                $("#txttitle").val("");
+                $("#txtdescription").val("");
+                $("#hfRowIndex").val("");
+            }
+        </script>
               <nav class="navbar navbar-dark bg-mynav">
               <h3>Admin Page</h3>
                 </div>
@@ -108,63 +83,67 @@
               <div class="container-fluid" >
                 <form action="https://www.google.com/search" method="get" class="form-control-plaintext">
                   <button class="btn btn-outline-success btn-rounded btn-sm my-0" type="submit">Search for events on Google</button>
-                  </form>
-                      <ul class="navbar-nav ml-auto">
-                          <li><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-new-task">➕Add Event</button></li>
-                          </div>
-                          </nav>
-                      </ul>
                   </span>
               </div>
           </nav>
           <div class="modal fade" id="add-new-task" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
               <div class="modal-dialog">
                   <div class="modal-content">
-                      <div class="modal-header">
-                          <h4 style="color:black" class="header_style4" id="staticBackdropLabel">Add Event</h4>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetForm()"></button>
-                      </div>
-                      <div class="modal-body">
-                          <form method="POST" action="" id="new-task">
-                              {% csrf_token %}
-                              <div class="m-3 p-1">
-                                  <label for="input" class="form-label h5">Title:</label>
-                                  <input type="text" name="title" class="form-control" id="title" placeholder="Task title" required>
-                              </div>
-                              <div class="m-3 p-1">
-                                  <label for="input" class="form-label h5">Description:</label>
-                                  <input type="text" name="description" class="form-control" id="description" placeholder="Task description" rows="5">
-                              </div>
-                              <div class="m-3 p-1">
-                                <label for="input" class="form-label h5">Start Date:</label>
-                                <input type="text" name="description" class="form-control" id="description" placeholder="Task description" rows="5">
-                            </div>
-                            <div class="m-3 p-1">
-                              <label for="input" class="form-label h5">Finish Date:</label>
-                              <input type="text" name="description" class="form-control" id="description" placeholder="Task description" rows="5">
-                            </div>
-                              <div class="modal-footer">
-                              <div class="task-button">
-                                  <a><button type="button" class="button4" data-bs-dismiss="modal" onclick="resetForm()">Discard</button></a>
-                                  <a><button type="submit" class="button2">Add Task</button></a>
                               </div>
                               </div>
                           </form>
                       </div>
                   </div>
-              </div>
-          </div>
+                </div>
           <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
                   <h2>⌞LIST EVENTS⌝</h2>
-                  <div id="task-cards"></div> </div> </div> 
-                  {% if messages %}
-                      {% for message in messages %}
-                      <div class="alert alert-primary alert-dismissible fade show mx-4" role="alert">
-                          {{message}}
-                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                      </div>
-                      {% endfor %}
-                  {% endif %}
+                  <div id="task-cards"></div></div>
+                  <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
+                  <input type="hidden" id="hfRowIndex" value="" />
+                  <table class="table">
+                      <tr>
+                          <td>No.</td>
+                          <td>
+                              <input type="text" title="Id" id="txtId" value="" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Title</td>
+                          <td>
+                              <input type="text" title="title" id="txttitle" value="" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Description</td>
+                          <td>
+                              <input type="text" title="description" id="txtdescription" value="" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                            <ul class="navbar-nav">
+                              <button type='button' class="btn btn-success" id='btnAdd'>Add</button>
+                              <button type='button' class="btn btn-success" id='btnUpdate' style="display: none;">Update</button>
+                          </td>
+                          <td>
+                            <ul class="navbar-nav">
+                              <button type='button' class="btn btn-success" id='btnClear'>Clear</button>
+                          </td>
+                      </tr>
+                  </table>
+                  <table id="tblCustomers" class="table">
+                      <thead>
+                          <tr>
+                              <th></th>
+                              <th>Title</th>
+                              <th>Description</th>
+                              <th>Description</th>
+                              <th>Actions</th>
+                          </tr>
+                      </thead>
+                      <tbody></tbody>
+                  </table>
+                  </div>
                   <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
                   <h2>⌞COMMENTS & FEEDBACK⌝</h2> </div>
             <div class="text-center">
@@ -178,8 +157,7 @@
   <!-- Copyright -->
 </footer>
             </section>
-
+ 
             {% endblock %}
         </div>
-
     </div> 

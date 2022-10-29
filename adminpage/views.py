@@ -106,5 +106,16 @@ def add_task(request):
                 'is_finished':task.is_finished,
             }
         }
-
     return JsonResponse(context)
+
+@login_required(login_url='/adminpage/login/')
+def submit_ajax(request):
+    print(request.POST.get('new_event'))
+    if request.method == 'POST':
+        new_event = request.POST.get('new_event')
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        new_event = TaskAdmin(title=title, description=description)
+        new_event.save()
+        return HttpResponseRedirect('/adminpage/ajax/')
+    return HttpResponse('Selamat, berhasil dikirim!')
