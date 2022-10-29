@@ -24,7 +24,7 @@ def show_event_manager(request):
 @csrf_exempt
 def add_new_event(request):
     if request.method == 'POST':
-        user=authenticate(request, username="gabriel.zebaoth", password="zebakrisoth99")
+        user=authenticate(request, username="gabriel.zebaoth", password="gabinggaul123")
         start_date = request.POST.get('start_date')
         finish_date = request.POST.get('finish_date')
         title=request.POST.get('title')
