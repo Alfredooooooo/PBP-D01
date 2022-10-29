@@ -48,22 +48,22 @@ function loadTaskData() {
     })
 })
 
-function editEvent(pk){
+// function editEvent(pk){
     
-    let title=$(`title-${pk}`).text()
-    let brief=$(`brief-${pk}`).text()
-    let description=$(`description-${pk}`).text()
-    let start_date=$(`start_date-${pk}`).text()
-    let finish_date=$(`finish_date-${pk}`).text()
+//     let title=$(`title-${pk}`).text()
+//     let brief=$(`brief-${pk}`).text()
+//     let description=$(`description-${pk}`).text()
+//     let start_date=$(`start_date-${pk}`).text()
+//     let finish_date=$(`finish_date-${pk}`).text()
 
-    $("#title-edit").val(title)
-    $("#brief-edit").val(brief)
-    $("#description-edit").val(description)
-    $("#start_date-edit").val(start_date)
-    $("#finish_date-edit").val(finish_date)
+//     $("#title-edit").val(title)
+//     $("#brief-edit").val(brief)
+//     $("#description-edit").val(description)
+//     $("#start_date-edit").val(start_date)
+//     $("#finish_date-edit").val(finish_date)
 
-    $("#editEventModal").modal('show')
-}
+//     $("#editEventModal").modal('show')
+// }
 
 function deleteEvent(pk){
     $.ajax({
@@ -83,20 +83,7 @@ $(document).ready(function () {
     });
 });
 
-$("#createNewEvent").on("click",function(){
-    let title=$(`title-${pk}`).text()
-    let brief=$(`brief-${pk}`).text()
-    let description=$(`description-${pk}`).text()
-    let start_date=$(`start_date-${pk}`).text()
-    let finish_date=$(`finish_date-${pk}`).text()
 
-    $("#title-edit").val(title)
-    $("#brief-edit").val(brief)
-    $("#description-edit").val(description)
-    $("#start_date-edit").val(start_date)
-    $("#finish_date-edit").val(finish_date)
-    $("#editEventModal").modal('show')
-})
 
 function closeModal(){
     $("#createEventForm").trigger('reset');

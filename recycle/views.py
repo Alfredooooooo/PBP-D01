@@ -46,7 +46,7 @@ def register(request):
     })
 
 
-def login(request):
+def login_user(request):
     # Find POST method
     if request.method == "POST":
         # Get the username and password from name attribute in input tag
