@@ -52,4 +52,6 @@ Berikut daftar *role* dan deskripsi dari masing-masing *role*.
 
 
 
-### 🥺Referensi landing page yang kemungkinan akan digunakan🥺
+### 👷Pipeline Status👷
+
+![Pipeline Status](https://github.com/Alfredooooooo/PBP-D01/actions/workflows/dpl.yml/badge.svg)
