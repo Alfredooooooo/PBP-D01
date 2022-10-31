@@ -60,7 +60,12 @@ function addComment(id) {
   fetch(`/forum/add/${forum_id}/${id}/`, {
         method: "POST",
         body: new FormData(document.querySelector(`#form${id}`))
-    }).then(refreshComments)
+    }).then((res) => {
+      if(res.redirected){
+        window.location.href = res.url
+      }
+      refreshComments()
+    })
   return false
 }
 

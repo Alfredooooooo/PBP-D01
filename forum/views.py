@@ -5,6 +5,7 @@ from event.models import Event
 from forum.models import Comment
 import datetime
 from .forms import CommentForm
+from django.contrib.auth.decorators import login_required
 
 def show_forum(request, id):
     data_forum = Event.objects.get(id=id)
@@ -20,6 +21,7 @@ def get_comments_json(request, id):
     comments = Comment.objects.filter(event=event)
     return HttpResponse(serializers.serialize('json', comments))
 
+@login_required(login_url='/login/')
 def add_comment(request, id1, id2):
     if request.method == 'POST' and request.user.is_authenticated:
 
