@@ -4,46 +4,7 @@
 {% block meta %}
 <title>Forum</title>
 <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
-<style>
-    html, body {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    .comment{
-      background-color: #8beadf;
-      transition: background-color 0.3s;
-      margin: auto; 
-      width: 70%;
-    }
-    .comment:hover{
-      background-color: #68dfd1;
-    }
-    .event{
-      background-color: #86BC30;
-      transition: background-color 0.3s;
-      margin: auto; 
-      width: 90%;
-    }
-    .event:hover{
-      background-color: #7cad2c;
-    }
-    .reply{
-      margin: auto;
-      height: 0;
-      width: 70%;
-      transition: height 0.4s;
-      display: none;
-      visibility: hidden;
-    }
-    #isi {
-      background-image: url("/static/img/forumbg.jpg");
-      background-position: center;
-      background-attachment: fixed;
-      background-size: 100% auto;
-      flex-grow: 1;
-    }
-</style>
+<link href="{% static 'css/forum.css' %}" rel="stylesheet" />
 {% endblock meta %}
 
 {% block content %}
@@ -57,19 +18,19 @@
     <div class="fw-bold">{{forum_data.title}}</div>
     <div>Created by <span class="fw-bold">{{forum_data.user}}</span></div>
     {% if logged_in %}
-    <div style="text-align:right">Start time: {{forum_data.start_date}}</div>
-    <div style="text-align:right">End time: {{forum_data.finish_date}}</div>
+      <div style="text-align:right">Start time: {{forum_data.start_date}}</div>
+      <div style="text-align:right">End time: {{forum_data.finish_date}}</div>
     {% endif %}
   </div>
   <div class="card-body">
     {% if logged_in %}
-    <p class="card-text">{{forum_data.description}}</p>
+      <p class="card-text">{{forum_data.description}}</p>
     {% else %}
-    <p class="card-text">Please log in to get more detailed information.</p>
+      <p class="card-text">Please log in to get more detailed information.</p>
     {% endif %}
-    <p class="card-text" align="right">
+      <p class="card-text" align="right">
       {% if logged_in %}
-      <input id="button0" type="button" class="btn btn-primary" value="Add a new comment" onclick="toggleForm(0)">
+        <input id="button0" type="button" class="btn btn-primary" value="Add a new comment" onclick="toggleForm(0)">
       {% endif %}
     </p>
   </div>
@@ -77,7 +38,7 @@
 <br>
 <form class="reply" method="POST" id="form0" onsubmit="return false;">
   {% csrf_token %}
-  <input id="comment_text" type="text" name="comment_text" placeholder="Comment" class="form-control m-2">
+  {{form.comment_text}}
   <input type="submit" value="Send" onclick="addComment(0)" class="m-2 btn btn-success">
 </form>
 <br>
@@ -90,6 +51,15 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
     var CSRF_TOKEN  = '{{ csrf_token }}'
     var username = `{{ request.user.username }}`
     var logged_in = `{{ logged_in }}`
+
+    async function addClasses() {
+      const comments = document.getElementsByName("comment_text")
+      for(let i=0; i<comments.length; i++){
+        comments[i].placeholder="Comment"
+        comments[i].className="form-control m-2"
+      }
+    }
+
     async function getComments() {
       return fetch('/forum/json/{{forum_data.id}}/').then((res) => res.json())
     }
@@ -121,13 +91,15 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
             htmlString += `\n</div></div><br>`
             htmlString += `\n<form class="reply" method="POST" id="form${item.pk}" onsubmit="return false;">`
             htmlString += `\n<input type="hidden" name="csrfmiddlewaretoken" value="${CSRF_TOKEN}">`
-            htmlString += `\n<input id="comment_text" type="text" name="comment_text" placeholder="Comment" class="form-control m-2">`
+            htmlString += `\n{{form.comment_text}}`
             htmlString += `\n<input type="submit" value="Send" onclick="addComment(${item.pk})" class="m-2 btn btn-success">`
             htmlString += `\n</form>`
             htmlString += `<br>`
           })
           
           document.getElementById("comments").innerHTML = htmlString
+          addClasses()
+          toggleForm(0, 1)
     }
   
     function addComment(id) {
@@ -146,11 +118,10 @@ Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-re
       return false
     }
 
-    function toggleForm(id) {
+    function toggleForm(id, zero=0) {
       const reply = document.getElementById(`form${id}`)
       const button = document.getElementById(`button${id}`)
-      console.log(reply.style.display)
-      if (reply.style.display == "none" || reply.style.display == ""){
+      if ((reply.style.display == "none" || reply.style.display == "") && zero==0){
         reply.style.display = "block";
         reply.style.visibility = "visible";
         setTimeout(function(){reply.style.height = "100px";}, 1);

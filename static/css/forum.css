@@ -1,0 +1,38 @@
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.comment{
+    background-color: #8beadf;
+    transition: background-color 0.3s;
+    margin: auto; 
+    width: 70%;
+}
+.comment:hover{
+    background-color: #68dfd1;
+}
+.event{
+    background-color: #86BC30;
+    transition: background-color 0.3s;
+    margin: auto; 
+    width: 90%;
+}
+.event:hover{
+    background-color: #7cad2c;
+}
+.reply{
+    margin: auto;
+    height: 0;
+    width: 70%;
+    transition: height 0.4s;
+    display: none;
+    visibility: hidden;
+}
+#isi {
+    background-image: url("/static/img/forumbg.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-size: 100% auto;
+    flex-grow: 1;
+}
