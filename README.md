@@ -50,3 +50,8 @@ Berikut daftar *role* dan deskripsi dari masing-masing *role*.
 ![image](https://user-images.githubusercontent.com/88032017/195363890-9fa317f2-3d4c-4b30-926e-494ac28dee9b.png)
 
 
+
+
+### 👷Pipeline Status👷
+
+![Pipeline Status](https://github.com/Alfredooooooo/PBP-D01/actions/workflows/dpl.yml/badge.svg)
