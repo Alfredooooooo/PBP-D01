@@ -1,5 +1,4 @@
 """project_django URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
 Examples:
@@ -19,7 +18,12 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('recycle.urls')),
+<<<<<<< HEAD
+    path('forum/', include('forum.urls')),
+    path('adminpage/', include('adminpage.urls')),
+=======
     path('recycle/', include('recycle.urls')),
+>>>>>>> b2ef0e0e204d5e196d91c8eeb97ff76d878f59b8
 ]
 
 # TODO: Implement Routings Here

@@ -12,7 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 from recycle.forms import RegisterUserForm, QuestionForm
 from recycle.models import Question
 
-
 def index(request):
     setCookieIndex(request)
     form = QuestionForm()
@@ -30,18 +29,17 @@ def setCookieIndex(request):
     # return response
     return response
 
-
 def about_us(request):
     return render(request, 'about-us.html')
-
 
 def objectives(request):
     return render(request, 'objectives.html')
 
-
 def event(request):
     return render(request, 'event.html')
 
+def adminpage(request):
+    return render(request, 'adminpage.html')
 
 def register_user(request):
     # Memanggil RegisterUserForm yang merupakan anak dari UserCreationForm

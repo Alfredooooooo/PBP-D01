@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'recycle',
+    'event',
+    'forum',
+    'adminpage',
 ]
 
 MIDDLEWARE = [
