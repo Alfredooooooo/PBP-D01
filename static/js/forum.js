@@ -65,7 +65,7 @@ function addComment(id) {
         window.location.href = res.url
       }
       toggleForm(id, 1)
-      setTimeout(function(){refreshComments();}, 500);
+      setTimeout(function(){refreshComments();}, 400);
     })
   return false
 }
