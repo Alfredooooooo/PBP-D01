@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
- 
 {% block meta %}
 <title>Admin Page</title>
 <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
 <link href="{% static 'css/adminpage.css' %}" rel="stylesheet" />
+<link rel=”stylesheet” href=”css/bootstrap.css”>
+<link rel=”stylesheet” href=”css/bootstrap-responsive.css”>
+<!-- Add icon link -->
+<link rel = "icon" href ="https://www.freepnglogos.com/uploads/recycle-png/download-recycling-symbol-the-original-recycle-logo-0.png" type = "image/x-icon">
 {% endblock meta %}
 {% block content %}
     {% include 'navbar.html' %}
@@ -16,10 +19,8 @@
                     id = $("#txtId").val();
                     title = $("#txttitle").val();
                     description = $("#txtdescription").val();
- 
-                    var edit = "<a class='edit' href='JavaScript:void(0);' >Edit</a>";
-                    var del = "<a class='delete' href='JavaScript:void(0);'>Delete</a>";
- 
+                    var edit = "<button class='edit btn btn-primary' href='JavaScript:void(0);' >Edit</a>";
+                    var del = "<a class='delete btn btn-danger' href='JavaScript:void(0);'>Delete</a>";
                     if (title == "" || description == "") {
                         alert("title and description fields required!");
                     } else {
@@ -31,21 +32,17 @@
                     description = $("#txtdescription").val("");
                     Clear();
                 });
- 
                 $('#btnUpdate').on('click', function () {
                     var title, description, id;
                     id = $("#txtId").val();
                     title = $("#txttitle").val();
                     description = $("#txtdescription").val();
- 
                     $('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(1).html(title);
                     $('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(2).html(description)
- 
                     $('#btnAdd').show();
                     $('#btnUpdate').hide();
                     Clear();
                 });
- 
                 $("#tblCustomers").on("click", ".delete", function (e) {
                     if (confirm("Are you sure want to delete this record!")) {
                         $(this).closest('tr').remove();
@@ -53,11 +50,9 @@
                         e.preventDefault();
                     }
                 });
- 
                 $('#btnClear').on('click', function () {
                     Clear();
                 });
- 
                 $("#tblCustomers").on("click", ".edit", function (e) {
                     var row = $(this).closest('tr');
                     $('#hfRowIndex').val($(row).index());
@@ -76,88 +71,278 @@
                 $("#hfRowIndex").val("");
             }
         </script>
-              <nav class="navbar navbar-dark bg-mynav">
-              <h3>Admin Page</h3>
+        <nav class="navbar navbar-dark bg-mynav">
+        <h3>Admin Page</h3>
+        </nav>
+        <div
+        class="bg-image"
+        style="
+            background-image: url(https://png.pngtree.com/thumb_back/fh260/back_our/20190617/ourmid/pngtree-creative-environmental-protection-background-material-template-image_125709.jpg);
+            height: 37vh;
+        "></div>
+            <div class="alert alert-success rounded-0" role="alert" >
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    ▽ TO-DO LIST ADMIN ▽
+                </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                        <h6>• Preparing, organising, and storing information in digital form</h6>
+                        <h6>• Dealing with queries on the phone and by email</h6>
+                        <h6>• Updating computer records using a database</h6>
                 </div>
-              </nav>
-              <div class="container-fluid" >
-                <form action="https://www.google.com/search" method="get" class="form-control-plaintext">
-                  <button class="btn btn-outline-success btn-rounded btn-sm my-0" type="submit">Search for events on Google</button>
-                  </span>
-              </div>
-          </nav>
-          <div class="modal fade" id="add-new-task" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                  <div class="modal-content">
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    ▽ CONTACT INFORMATION ▽
+                </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <h6>• Contact</h6>
+                        <h6>Universitas Indonesia, Depok, Jawa Barat</h6>
+                        <h6>• Email</h6>
+                        <h6>re.cycle@ui.ac.id</h6>
+                </div>
+                </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                    ▽ GET INSPIRED ▽
+                </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <h6>Re.cycle provides facilities as a place to move in realizing better environmental hygiene, especially in Indonesia.</h6>
+                    <h6>The importance of awareness of the Indonesian people to recycle waste. Thus, it is necessary to introduce recycling events that can be attended by many people so that environmental hygiene can be spread well in Indonesia. </h6>
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+                <div class="col text-center mt-2">
+                <a href="https://www.google.com/search" class="btn btn-outline-success mt-2">SEARCH FOR PROJECTS ON GOOGLE</a>
+                <div class="modal fade" id="add-new-task" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
                               </div>
                               </div>
                           </form>
                       </div>
                   </div>
                 </div>
-          <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
-                  <h2>⌞LIST EVENTS⌝</h2>
-                  <div id="task-cards"></div></div>
-                  <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
-                  <input type="hidden" id="hfRowIndex" value="" />
-                  <table class="table">
-                      <tr>
-                          <td>No.</td>
-                          <td>
-                              <input type="text" title="Id" id="txtId" value="" />
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>Title</td>
-                          <td>
-                              <input type="text" title="title" id="txttitle" value="" />
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>Description</td>
-                          <td>
-                              <input type="text" title="description" id="txtdescription" value="" />
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                            <ul class="navbar-nav">
-                              <button type='button' class="btn btn-success" id='btnAdd'>Add</button>
-                              <button type='button' class="btn btn-success" id='btnUpdate' style="display: none;">Update</button>
-                          </td>
-                          <td>
-                            <ul class="navbar-nav">
-                              <button type='button' class="btn btn-success" id='btnClear'>Clear</button>
-                          </td>
-                      </tr>
-                  </table>
-                  <table id="tblCustomers" class="table">
-                      <thead>
-                          <tr>
-                              <th></th>
-                              <th>Title</th>
-                              <th>Description</th>
-                              <th>Description</th>
-                              <th>Actions</th>
-                          </tr>
-                      </thead>
-                      <tbody></tbody>
-                  </table>
-                  </div>
-                  <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
-                  <h2>⌞COMMENTS & FEEDBACK⌝</h2> </div>
-            <div class="text-center">
-            <img src="https://www.recycleit.co.uk/wp-content/uploads/2020/05/HomePageBannerTruck.png" class="img-fluid" alt="Responsive image">
-<footer class="text-center text-white" style="background-color: #f1f1f1;">
-  <!-- Copyright -->
-  <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    ©2022 Copyright:
-    <a class="text-dark" href="https://pbp-d01.herokuapp.com/">re.cycle</a>
-  </div>
-  <!-- Copyright -->
-</footer>
-            </section>
- 
-            {% endblock %}
+            </div>
         </div>
-    </div> 
+        <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
+        <h2>⌞LIST PROJECTS⌝</h2>
+        <div id="task-cards"></div></div>
+        <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
+        <input type="hidden" id="hfRowIndex" value="" />
+        <table class="table">
+            <tr>
+                <td>No.</td>
+                <td>
+                    <input type="text" title="Id" id="txtId" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td>Title</td>
+                <td>
+                    <input type="text" title="title" id="txttitle" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>
+                    <input type="text" title="description" id="txtdescription" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <ul class="navbar-nav">
+                    <button type='button' class="btn btn-success" id='btnAdd'>Add</button>
+                    <button type='button' class="btn btn-success" id='btnUpdate' style="display: none;">Update</button>
+                </td>
+                <td>
+                <ul class="navbar-nav d-grid gap-3 d-md-block align-items:center">
+                    <button type='button' class="btn btn-success" id='btnClear'>Clear</button>
+            </tr>
+
+        </table>
+        <table id="tblCustomers" class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+        </table>
+        </div>
+    <script>
+            $('form').on('submit', function(e) {
+                e.preventDefault();
+ 
+                var newtask = $('#task').val();
+                var task_elem = $('<div>')
+                    .append('<input type="checkbox">')
+                    .addClass('task')
+                    .append(newtask);
+                $('#tasks').append(task_elem);
+                $.ajax({
+                    url: '/',
+                    method: 'post',
+                    dataType: 'json',
+                    data: {
+                        task: newtask,
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        console.log(JSON.stringify(response));
+                    },
+                });
+            });
+            $('body').on('click', 'input[type="checkbox"]', function() {
+                var task = $(this).parents('.task');
+                if(task.hasClass('strikeout')) {
+                    task.removeClass('strikeout');
+                    task.appendTo($('#tasks'));
+                } else {
+                    task.addClass('strikeout');
+                    task.appendTo($('#done'));
+                }
+            });
+        </script>
+        <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
+        <h2>⌞SUGGESTION FORM⌝</h2>
+        <h1>Tell us what you think! We value your feedback.</h1>
+        <form id="form" onsubmit="return false;">
+            {% csrf_token %}
+            <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" name="nama_barang"></input>
+            <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" name="harga_barang"></input>
+            <div class="form-group">
+            <label>Describe Feedback:</label>
+            <textarea class="form-control" input type="text" rows="3" name="deskripsi"></textarea>
+            </div>
+                <ul class="navbar-nav mt-3">
+            <button id="button" type="submit" value="Submit" class="btn btn-success">Submit</button>
+        </form>
+        <table id="table"></table>
+        </div>
+        </div>
+        </div>
+        </form>
+        <div class="items">
+            <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
+                <h1>Contact Us</h1>
+                <form action="/adminpage/create_task/" method="POST">
+                    {% csrf_token %}
+                    <table>
+                        {{ form.as_table }}
+                    </table>
+                    <center><button id="button" type="submit" value="Submit" class="btn btn-success mt-2">Submit</center></button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    async function getWishlist() {
+    return fetch("{% url 'get_wishlist_json' %}").then((res) => res.json())
+    }
+    async function refreshWishlist() {
+        document.getElementById("table").innerHTML = ""
+        const wishlist = await getWishlist()
+        let htmlString = `<tr>
+            <th class="text-center">───Feedback you've previously left for this site───</th>
+        </tr>`
+        wishlist.forEach((item) => {
+          htmlString += `\n
+        <div class="container p-4" style="max-width: 50rem; align-items:center">            
+        <div class="card">
+        <label class="text-center">[FEEDBACK]</label>
+        <p class="text-left">Nama➔ ${item.fields.nama_barang}</p>
+        <p class="text-left">Email➔ ${item.fields.harga_barang}</p>
+        <p class="text-left">Feedback➔ ${item.fields.deskripsi}</p>
+        </div>
+        </div>`
+        })
+        document.getElementById("table").innerHTML = htmlString
+  }
+  function addWishlist() {
+    fetch("{% url 'add_wishlist_item' %}", {
+          method: "POST",
+          body: new FormData(document.querySelector('#form'))
+      }).then(refreshWishlist)
+    return false
+  }
+  document.getElementById("button").onclick = addWishlist
+  refreshWishlist()
+</script>
+                  <div class="card text-bg-success mb-3" style="max-width: 50rem; align-items:center">
+                  <h5 class="card-title">Go Green! Reduce, Reuse, Recycle!</h5>
+                  <p class="card-text">╰──╮˗ˏˋLet us participate´ˎ˗╭──╯</p>
+                  <a href="#" class="btn btn-outline-light mt-1" style="font-weight:700">Click Here To Go Back</a>
+                  </div>
+                  <div class="container">                      
+                    <div class="row text-center justify-content-center mb-5">
+                        <div class="col-xl-6 col-lg-8">
+                            <h2 class="font-weight-bold">REDUCE REUSE RECYCLE</h2>
+                            <p class="text-muted">We really appreciate you stepping in to support us</p>
+                        </div>
+                    </div>
+ 
+                    <div class="row">
+                        <div class="col">
+                            <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                                <div class="timeline-step">
+                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
+                                        <div class="inner-circle"></div>
+                                        <p class="h6 mt-3 mb-1">REDUCE</p>
+                                        <p class="h6 text-muted mb-0 mb-lg-0">Reduce the amount of waste you produce</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step">
+                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
+                                        <div class="inner-circle"></div>
+                                        <p class="h6 mt-3 mb-1">REUSE</p>
+                                        <p class="h6 text-muted mb-0 mb-lg-0">Reuse items as much as you can before replacing them</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step">
+                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
+                                        <div class="inner-circle"></div>
+                                        <p class="h6 mt-3 mb-1">RECYCLE</p>
+                                        <p class="h6 text-muted mb-0 mb-lg-0">Recycle items wherever possible</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <div class="text-center">
+                  <img src="https://www.recycleit.co.uk/wp-content/uploads/2020/05/HomePageBannerTruck.png" class="img-fluid" alt="Responsive image">
+                  </div>
+            <footer class="text-center text-white" style="background-color: #f1f1f1;">
+              <!-- Copyright -->
+              <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                ©2022 Copyright:
+                <a class="text-dark" href="https://pbp-d01.herokuapp.com/">re.cycle</a>
+              </div>
+              <!-- Copyright -->
+            </footer>
+                  </section>
+                  {% endblock content %}
+              </div>
+            </div>
