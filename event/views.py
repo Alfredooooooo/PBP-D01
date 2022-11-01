@@ -1,3 +1,5 @@
+from datetime import datetime
+from itertools import product
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -15,6 +17,50 @@ def event_manager(request):
 
 def event_user(request):
     return render(request, "show-event-user.html")
+
+def show_recently_viewed_event(request):
+    if request.method == 'GET':
+        if 'recently_viewed' not in request.session:
+            recently_viewed_events = []
+            return HttpResponse(serializers.serialize("json", recently_viewed_events), content_type="application/json")
+        else:
+            recently_viewed_events = Event.objects.filter(pk__in=request.session['recently_viewed'])
+            return HttpResponse(serializers.serialize("json", recently_viewed_events), content_type="application/json")
+    else:
+        recently_viewed_events = []
+        return HttpResponse(serializers.serialize("json", recently_viewed_events), content_type="application/json")
+    
+def show_detail_event(request, pk):
+    if request.method == 'GET':
+        data_event = Event.objects.filter(pk=pk)
+        if 'recently_viewed' in request.session:
+            if pk not in request.session['recently_viewed']:
+                recently_viewed_events = Event.objects.filter(pk__in=request.session['recently_viewed'])
+                request.session['recently_viewed'].insert(0, pk)
+                if len(request.session['recently_viewed'])>3:
+                    request.session['recently_viewed'].pop()
+        else:
+            request.session['recently_viewed'] = [pk]
+        request.session.modified = True
+        return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
+    else:
+        data_event = Event.objects.filter(pk=pk)
+        return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
+
+def show_now_event(request):
+    if request.method == "GET":
+        data_event = Event.objects.filter(start_date__gte=datetime.now, finish_date__lt=datetime.now)
+        return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
+
+def show_past_event(request):
+    if request.method == "GET":
+        data_event = Event.objects.filter(finish_date__gt=datetime.now)
+        return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
+
+def show_upcoming_event(request):
+    if request.method == "GET":
+        data_event = Event.objects.get(start_date__gt=datetime.now)
+        return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
 
 
 def show_event_manager(request):

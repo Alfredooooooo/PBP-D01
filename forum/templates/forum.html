@@ -4,46 +4,14 @@
 {% block meta %}
 <title>Forum</title>
 <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
-<style>
-    html, body {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    .comment{
-      background-color: #8beadf;
-      transition: background-color 0.3s;
-      margin: auto; 
-      width: 70%;
-    }
-    .comment:hover{
-      background-color: #68dfd1;
-    }
-    .event{
-      background-color: #86BC30;
-      transition: background-color 0.3s;
-      margin: auto; 
-      width: 90%;
-    }
-    .event:hover{
-      background-color: #7cad2c;
-    }
-    .reply{
-      margin: auto;
-      height: 0;
-      width: 70%;
-      transition: height 0.4s;
-      display: none;
-      visibility: hidden;
-    }
-    #isi {
-      background-image: url("/static/img/forumbg.jpg");
-      background-position: center;
-      background-attachment: fixed;
-      background-size: 100% auto;
-      flex-grow: 1;
-    }
-</style>
+<link href="{% static 'css/forum.css' %}" rel="stylesheet" />
+
+<meta id="CSRF_TOKEN" content="{{ csrf_token }}">
+<meta id="username" content="{{ request.user.username }}">
+<meta id="logged_in" content="{{ logged_in }}">
+<meta id="forum_id" content="{{ forum_data.id }}">
+<p id="comment_text" hidden>{{ form.comment_text }}</p>
+
 {% endblock meta %}
 
 {% block content %}
@@ -57,27 +25,26 @@
     <div class="fw-bold">{{forum_data.title}}</div>
     <div>Created by <span class="fw-bold">{{forum_data.user}}</span></div>
     {% if logged_in %}
-    <div style="text-align:right">Start time: {{forum_data.start_date}}</div>
-    <div style="text-align:right">End time: {{forum_data.finish_date}}</div>
+      <div style="text-align:right">Start time: {{forum_data.start_date}}</div>
+      <div style="text-align:right">End time: {{forum_data.finish_date}}</div>
     {% endif %}
   </div>
   <div class="card-body">
     {% if logged_in %}
-    <p class="card-text">{{forum_data.description}}</p>
+      <p class="card-text">{{forum_data.description}}</p>
     {% else %}
-    <p class="card-text">Please log in to get more detailed information.</p>
+      <p class="card-text">Please log in to get more detailed information.</p>
     {% endif %}
-    <p class="card-text" align="right">
-      {% if logged_in %}
+      <p class="card-text" align="right">
       <input id="button0" type="button" class="btn btn-primary" value="Add a new comment" onclick="toggleForm(0)">
-      {% endif %}
     </p>
   </div>
 </div>
 <br>
+
 <form class="reply" method="POST" id="form0" onsubmit="return false;">
   {% csrf_token %}
-  <input id="comment_text" type="text" name="comment_text" placeholder="Comment" class="form-control m-2">
+  {{form.comment_text}}
   <input type="submit" value="Send" onclick="addComment(0)" class="m-2 btn btn-success">
 </form>
 <br>
@@ -86,91 +53,6 @@
 Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-recycle-lettering_21095084.htm#query=recycle&position=6&from_view=search&track=sph">Freepik</a>
 </div>
 
-<script>
-    var CSRF_TOKEN  = '{{ csrf_token }}'
-    var username = `{{ request.user.username }}`
-    var logged_in = `{{ logged_in }}`
-    async function getComments() {
-      return fetch('/forum/json/{{forum_data.id}}/').then((res) => res.json())
-    }
-  
-    async function refreshComments() {
-
-          const comments = await getComments()
-          let htmlString = ``
-          comments.forEach((item) => {
-            htmlString += `\n<div id="comment${item.pk}" class="card shadow-lg comment">`
-            htmlString += `\n<div class="card-header text-white" style="background-color: #359f92;">
-                <div class="fw-bold">${item.fields.username}</div>`
-            const date = new Date(`${item.fields.datetime}`)
-            htmlString += `<div style="text-align:right">${date}</div>
-            </div>`
-            htmlString += `<div class="card-body">`
-            if(item.fields.parent != null){
-              htmlString += `\n<a class="card-text" href="#comment${item.fields.parent_pk}">Replying to ${item.fields.parent_username}</a>`
-            }
-            htmlString += `\n<p class="card-text">${item.fields.comment_text}</p>`
-            htmlString += `\n<p class="card-text" align="right">`
-            if(logged_in == `True`){
-              htmlString += `\n<input id="button${item.pk}" type="button" class="btn btn-primary" value="Reply" onclick="toggleForm(${item.pk})">`
-            }
-            if(`${item.fields.username}` == username){
-              htmlString += `\n<input type="button" class="btn btn-danger" value="Delete" onclick="deleteComment(${item.pk})">`
-            }
-            htmlString += `\n</p>`
-            htmlString += `\n</div></div><br>`
-            htmlString += `\n<form class="reply" method="POST" id="form${item.pk}" onsubmit="return false;">`
-            htmlString += `\n<input type="hidden" name="csrfmiddlewaretoken" value="${CSRF_TOKEN}">`
-            htmlString += `\n<input id="comment_text" type="text" name="comment_text" placeholder="Comment" class="form-control m-2">`
-            htmlString += `\n<input type="submit" value="Send" onclick="addComment(${item.pk})" class="m-2 btn btn-success">`
-            htmlString += `\n</form>`
-            htmlString += `<br>`
-          })
-          
-          document.getElementById("comments").innerHTML = htmlString
-    }
-  
-    function addComment(id) {
-      fetch(`/forum/add/{{forum_data.id}}/${id}/`, {
-            method: "POST",
-            body: new FormData(document.querySelector(`#form${id}`))
-        }).then(refreshComments)
-      return false
-    }
-
-    function deleteComment(id) {
-      fetch(`/forum/delete/${id}/`, {
-            method: "POST",
-            body: new FormData(document.querySelector(`#form${id}`))
-        }).then(refreshComments)
-      return false
-    }
-
-    function toggleForm(id) {
-      const reply = document.getElementById(`form${id}`)
-      const button = document.getElementById(`button${id}`)
-      console.log(reply.style.display)
-      if (reply.style.display == "none" || reply.style.display == ""){
-        reply.style.display = "block";
-        reply.style.visibility = "visible";
-        setTimeout(function(){reply.style.height = "100px";}, 1);
-        button.value = "Hide";
-      }
-      else {
-        reply.style.height = "0px";
-        reply.style.visibility = "hidden";
-        setTimeout(function(){reply.style.display = "none";}, 400);
-        if(id == 0){
-          button.value = "Add a new comment";
-        }
-        else{
-          button.value = "Reply";
-        }
-      }
-      return false
-    }
-
-    refreshComments()
-</script>
+<script type="text/JavaScript" src="{% static 'js/forum.js' %}"></script>
 
 {% endblock content %}
