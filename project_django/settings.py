@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'recycle',
     'event',
     'forum',
+    'adminpage',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project_django.wsgi.application'
+
+
 
 
 # Database
