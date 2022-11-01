@@ -38,6 +38,7 @@ def objectives(request):
 def event(request):
     return render(request, 'event.html')
 
+@login_required(login_url="/recycle/login/")
 def adminpage(request):
     return render(request, 'adminpage.html')
 
