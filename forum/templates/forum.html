@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Forum</title>
+<link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
+<link href="{% static 'css/forum.css' %}" rel="stylesheet" />
+
+<meta id="CSRF_TOKEN" content="{{ csrf_token }}">
+<meta id="username" content="{{ request.user.username }}">
+<meta id="logged_in" content="{{ logged_in }}">
+<meta id="forum_id" content="{{ forum_data.id }}">
+<p id="comment_text" hidden>{{ form.comment_text }}</p>
+
+{% endblock meta %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+<div id="isi">
+
+<br>
+<div id="eventinfo" class="card shadow-lg event">
+  <div class="card-header text-white" style="background-color: #3A825C;">
+    <div class="fw-bold">{{forum_data.title}}</div>
+    <div>Created by <span class="fw-bold">{{forum_data.user}}</span></div>
+    {% if logged_in %}
+      <div style="text-align:right">Start time: {{forum_data.start_date}}</div>
+      <div style="text-align:right">End time: {{forum_data.finish_date}}</div>
+    {% endif %}
+  </div>
+  <div class="card-body">
+    {% if logged_in %}
+      <p class="card-text">{{forum_data.description}}</p>
+    {% else %}
+      <p class="card-text">Please log in to get more detailed information.</p>
+    {% endif %}
+      <p class="card-text" align="right">
+      <input id="button0" type="button" class="btn btn-primary" value="Add a new comment" onclick="toggleForm(0)">
+    </p>
+  </div>
+</div>
+<br>
+
+<form class="reply" method="POST" id="form0" onsubmit="return false;">
+  {% csrf_token %}
+  {{form.comment_text}}
+  <input type="submit" value="Send" onclick="addComment(0)" class="m-2 btn btn-success">
+</form>
+<br>
+
+<div id="comments"></div>
+Image by <a href="https://www.freepik.com/free-vector/hand-drawn-reduce-reuse-recycle-lettering_21095084.htm#query=recycle&position=6&from_view=search&track=sph">Freepik</a>
+</div>
+
+<script type="text/JavaScript" src="{% static 'js/forum.js' %}"></script>
+
+{% endblock content %}
