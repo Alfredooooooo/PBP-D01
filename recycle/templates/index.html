@@ -5,29 +5,166 @@
 <title>Home</title>
 <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
 <link href="{% static 'css/index.css' %}" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/16672d0caf.js" crossorigin="anonymous"></script>
 {% endblock meta %}
 
 {% block content %}
-    <div id="bg1"></div>
-    <div id="bg2"></div>
-    {% include 'navbar.html' %}
+    <div id="part1">
+        <div id="bg1"></div>
+        <div id="bg2"></div>
+        {% include 'navbar.html' %}
 
-    <div class="container-fluid" id="custom-container">
-        <div class="row custom-section">
-            <div class="col-12 col-lg-4">
-                <h3>Reduce</h3>
-                <h1>Recycle</h1>
-                <h3>Reuse</h3>
-                <div id="custom-description">
-                    <h6>Introducing Re.cycle!</h6>
-                    <p>
-                        Sebuah platform yang memberikan informasi terkait
-                        daur ulang sampah & mengajak masyarakat untuk
-                        melakukan daur ulang sampah.
-                    </p>
-                    <a href="#">Read More</a>
+        <div class="container-fluid" id="custom-container">
+            <div class="row custom-section">
+                <div class="col-12 col-lg-4">
+                    <h3>Reduce</h3>
+                    <h1>Recycle</h1>
+                    <h3>Reuse</h3>
+                    <div id="custom-description">
+                        <h6>Introducing Re.cycle!</h6>
+                        <p>
+                            Sebuah platform yang memberikan informasi terkait
+                            daur ulang sampah & mengajak masyarakat untuk
+                            melakukan daur ulang sampah.
+                        </p>
+                        <a href="#part2">Read More</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="part2">
+        <div id="bg3"></div>
+        <div class="container-fluid" id="custom-container-2">
+            <div class="row custom-section-2">
+                <div class="col-12 custom-locating">
+                    <div class="bg-color">
+                        <div class="set-margin">
+                            <h1>Re.cycle</h1>
+                        </div>
+                    </div>
+                    <div id="custom-description-2">
+                        <div id="flexed">
+                            <div>
+                                Re.cycle adalah sebuah platform yang memberikan
+                                informasi terkait daur ulang sampah dan mengajak
+                                masyarakat untuk mengurangi jumlah pencemaran
+                                dengan cara melakukan daur ulang sampah. Melalui
+                                event yang diadakan oleh sebuah organisasi atau
+                                kelompok tertentu, Re.cycle mendorong seluruh
+                                pengunjung website untuk turut berpartisipasi
+                                dalam mewujudkan kebersihan lingkungan yang
+                                lebih baik lagi.
+                            </div>
+                            <div id="second-paragraph">
+                                Alasan kelompok kami memilih daur ulang sebagai
+                                topik dari aplikasi kami adalah, karena kami
+                                merasa bahwa kurangnya kesadaran masyarakat
+                                Indonesia untuk mendaur ulang sampah. Selain
+                                itu, kami juga merasa bahwa informasi mengenai
+                                event-event daur ulang yang dapat dihadiri oleh
+                                orang-orang yang tertarik dengan kebersihan
+                                lingkungan belum tersebar secara baik di
+                                Indonesia. Oleh karena itu, kami berharap
+                                aplikasi yang akan kami buat dapat digunakan
+                                sebagai bentuk kesadaran masyarakat Indonesia
+                                tentang pentingnya kebersihan lingkungan dan
+                                sebagai wadah untuk bergerak dalam mewujudkan
+                                kebersihan lingkungan yang lebih baik lagi
+                                terutama di Indonesia.
+                            </div>
+                        </div>
+                        <a href="{% url 'recycle:event' %}">Get Started</a>
+                        <a href="#part3">Ask Question</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="part3">
+        <div id="bg4"></div>
+        <div class="container-fluid" id="custom-container-3">
+            <div class="row custom-section-3">
+                <div class="col-12 custom-locating-2">
+                    <div class="bg-color">
+                        <div class="set-margin">
+                            <h1>Ask Questions!</h1>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center align-content-center flex-wrap" id="appendCard"></div>
+
+                    <div id="appendInfo" class="my-4">
+                        {% if request.user.is_authenticated %}
+                            <div class="container">
+                                <div class="h6">Ada pertanyaan untuk kami?</div>
+                                <p>Klik icon dibawah untuk menambahkan pertanyaanmu!</p>
+                                <a href="{% url 'recycle:createquestion' %}" data-bs-toggle="modal" data-bs-target="#questionModal" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-square-plus fa-spin fa-5x" style="--fa-animation-duration: 15s;"></i></a>
+                            </div>
+                        {% else %}
+                            <div class="container">
+                                <div class="h6">Ada pertanyaan untuk kami?</div>
+                                <p>Login terlebih dahulu untuk menambahkan pertanyaanmu!</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="part4">
+        <p class="bg-color-2">You have visited/refreshed this page {{visits}} times</p>
+    </div>
+
+    <!--- Modal --->
+    <div class="modal fade" id="questionModal" tabindex="-1" aria-labelledby="questionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="questionModalLabel">Add a new Question</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/recycle/create-question/" method="POST" id="formCreateQuestion">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        {{form.as_p}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-success">Add Question</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editQuestionModal" tabindex="-1" aria-labelledby="editQuestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editQuestionModalLabel">Edit Question</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" method="POST" id="formEditQuestion">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        {{form.as_p}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-success">Save Question</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% if request.user.is_authenticated %}
+    <script src="{% static 'js/index-user.js' %}"></script>
+{% else %}
+    <script src="{% static 'js/index-nonuser.js' %}"></script>
+{% endif %}
 {% endblock content %}
