@@ -15,4 +15,3 @@ class TaskForm(forms.Form):
     attrs = {
         'class': 'form-control',
     }))
-    

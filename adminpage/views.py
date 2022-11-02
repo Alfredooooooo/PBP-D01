@@ -8,16 +8,16 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 @login_required(login_url='/recycle/login')
-def wishlist(request):
+def adminpage(request):
     return render(request, "adminpage.html")
 
 @login_required(login_url='/recycle/login')
-def get_wishlist_json(request):
-    wishlist_item = AdminPage.objects.all()
-    return HttpResponse(serializers.serialize('json', wishlist_item))
+def get_adminpage_json(request):
+    adminpage_item = AdminPage.objects.all()
+    return HttpResponse(serializers.serialize('json', adminpage_item))
 
 @login_required(login_url='/recycle/login')
-def add_wishlist_item(request):
+def add_adminpage_item(request):
     if request.method == 'POST':
         nama_admin = request.POST.get("nama_admin")
         email_admin = request.POST.get("email_admin")
