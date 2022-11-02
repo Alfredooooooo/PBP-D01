@@ -4,13 +4,7 @@
 {% block meta %}
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
 <link rel="stylesheet" href="\static\css\event-user.css">
-{% if request.user.is_superuser %}
-<script src="\static\js\event-admin.js"></script>
-{% elif request.user.is_authenticated %}
-  <script src="\static\js\event-manager.js"></script>
-{% else %}
-  <script src="\static\js\event-user.js"></script>
-{% endif %}
+
 {% endblock meta %}
 {% block content %}
 {% include 'navbar.html' %}
@@ -124,10 +118,14 @@
   </div>
 </div>
 
-
-
-
-
+{% if request.user.is_superuser %}
+<script src="\static\js\event-admin.js"></script>
+{% elif request.user.is_authenticated %}
+  <script src="\static\js\event-manager.js"></script>
+{% else %}
+  <script src="\static\js\event-user.js"></script>
+{% endif %}
+<!-- <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script> -->
 
 
 {% endblock content %}

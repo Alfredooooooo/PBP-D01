@@ -30,13 +30,18 @@ function loadYourEvent(){
         for (let data of dataList) {
           let start_date_formatted = formatDate(data.fields.start_date);
           let finish_date_formatted = formatDate(data.fields.finish_date);
+          let brief= data.fields.brief
+
+          if(brief.length>30){
+            brief= brief.slice(0,27) +"..."
+          }
           your_card_content += `
             <div class="" id="event-${data.pk}">
               <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
                 <div class="card-body align-item-center justify-content-center">
                   <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
                   <div class="d-flex justify-content-between align-items-center">
-                    <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${data.fields.brief}</p>
+                    <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${brief}</p>
                   </div>
 
                   <div class="date-container d-flex flex-row align-item-center">
@@ -104,9 +109,9 @@ $("#formCreateEvent").on("submit", (e) => {
       type: "POST",
       url: "/event/add-event/",
       data: $("#formCreateEvent").serialize(),
-      // beforeSend: function(){
-      //   $("#createEventModal").modal("hide");
-      // },
+      beforeSend: function(){
+        $("#createEventModal").modal("hide");
+      },
       success: (data) => {
           console.log(data);
           loadYourEvent();
@@ -133,13 +138,18 @@ function loadRecentlyViewed() {
         for (let data of dataList) {
           let start_date_formatted = formatDate(data.fields.start_date);
           let finish_date_formatted = formatDate(data.fields.finish_date);
+          let brief= data.fields.brief
+
+          if(brief.length>30){
+            brief= brief.slice(0,27) +"..."
+          }
           recent_card_content += `
             <div class="" id="event-${data.pk}">
               <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
                 <div class="card-body align-item-center justify-content-center">
                   <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
                   <div class="d-flex justify-content-between align-items-center">
-                    <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${data.fields.brief}</p>
+                    <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${brief}</p>
                   </div>
 
                   <div class="date-container d-flex flex-row align-item-center">
@@ -205,6 +215,11 @@ function loadNowEvent() {
           let finish_date= new Date(data.fields.finish_date);
           let start_date_formatted = formatDate(data.fields.start_date);
           let finish_date_formatted = formatDate(data.fields.finish_date);
+          let brief= data.fields.brief
+
+          if(brief.length>30){
+            brief= brief.slice(0,27) +"..."
+          }
           if(start_date<=now_date && finish_date>=now_date){
             now_card_content += `
             <div class="" id="event-${data.pk}" >
@@ -212,7 +227,7 @@ function loadNowEvent() {
                 <div class="card-body align-item-center justify-content-center">
                   <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
                   <div class="d-flex justify-content-between align-items-center">
-                    <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${data.fields.brief}</p>
+                    <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${brief}</p>
                   </div>
 
                   <div class="date-container d-flex flex-row align-item-center">
@@ -281,6 +296,11 @@ function loadFutureEvent() {
           let finish_date= new Date(data.fields.finish_date);
           let start_date_formatted = formatDate(data.fields.start_date);
           let finish_date_formatted = formatDate(data.fields.finish_date);
+          let brief= data.fields.brief
+
+          if(brief.length>30){
+            brief= brief.slice(0,25) +"..."
+          }
           if(start_date>now_date){
             future_card_content += `
             <div class="" id="event-${data.pk}" >
@@ -288,7 +308,7 @@ function loadFutureEvent() {
                 <div class="card-body align-item-center justify-content-center">
                   <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
                   <div class="d-flex justify-content-between align-items-center">
-                    <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${data.fields.brief}</p>
+                    <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${brief}</p>
                   </div>
 
                   <div class="date-container d-flex flex-row align-item-center">
@@ -357,6 +377,11 @@ function loadPastEvent() {
           let finish_date= new Date(data.fields.finish_date);
           let start_date_formatted = formatDate(data.fields.start_date);
           let finish_date_formatted = formatDate(data.fields.finish_date);
+          let brief= data.fields.brief
+
+          if(brief.length>30){
+            brief= brief.slice(0,27) +"..."
+          }
           if(finish_date<=now_date){
             past_card_content += `
             <div class="" id="event-${data.pk}" >
