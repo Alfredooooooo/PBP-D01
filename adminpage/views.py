@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from adminpage.models import BarangWishlist
+from adminpage.models import AdminPage
 from django.http import HttpResponse, HttpResponseNotFound
 from django.core import serializers
 from adminpage.forms import TaskForm
@@ -13,17 +13,17 @@ def wishlist(request):
 
 @login_required(login_url='/recycle/login')
 def get_wishlist_json(request):
-    wishlist_item = BarangWishlist.objects.all()
+    wishlist_item = AdminPage.objects.all()
     return HttpResponse(serializers.serialize('json', wishlist_item))
 
 @login_required(login_url='/recycle/login')
 def add_wishlist_item(request):
     if request.method == 'POST':
-        nama_barang = request.POST.get("nama_barang")
-        harga_barang = request.POST.get("harga_barang")
+        nama_admin = request.POST.get("nama_admin")
+        email_admin = request.POST.get("email_admin")
         deskripsi = request.POST.get("deskripsi")
-        new_barang = BarangWishlist(user=request.user, nama_barang=nama_barang, harga_barang=harga_barang, deskripsi=deskripsi)
-        new_barang.save()
+        new_data = AdminPage(user=request.user, nama_admin=nama_admin, email_admin=email_admin, deskripsi=deskripsi)
+        new_data.save()
 
         return HttpResponse(b"CREATED", status=201)
 
