@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>About Us</title>
+<link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
+<link href="{% static 'css/about-us.css' %}" rel="stylesheet" />
+<link rel=”stylesheet” href=”css/bootstrap.css”>
+<link rel=”stylesheet” href=”css/bootstrap-responsive.css”>
+<!-- Add icon link -->
+<link rel = "icon" href ="https://www.freepnglogos.com/uploads/wrench/gear-with-wrench-logo-transparent-1.png" type = "image/x-icon">
+{% endblock meta %}
+
+
+{% block content %}
+
+<body>
+    <div id="part1">
+        {% include 'navbar.html' %}
+        <div class="header-text d-flex align-items-center justify-content-center ">
+            <h5>OUR TEAM</h5>
+        </div>
+        <br>
+        
+        <div class="header-text d-flex align-items-center justify-content-center ">
+            
+            <section>
+                <div class="wrapper">
+                    <br>
+                    <div class="team">
+                        <div>
+                            <div class="team_img">
+                                <img src="/static/img/aaa.png" alt="Team_image">
+                            </div>
+                        <h3>Alfredo Austin</h3>
+                    </div>
+                    <br>
+                    <div class="team_member">
+                        <div class="team_img">
+                            <img src="/static/img/aaa.png" alt="Team_image">
+                        </div>
+                        <h3>Gabriel Zebaoth Krisopras Putra</h3>
+                    </div>
+                    <br>
+                    <div class="team_member">
+                        <div class="team_img">
+                            <img src="/static/img/aaa.png" alt="Team_image">
+                        </div>
+                        <h3>Febi Claudia Damanik</h3>
+                    </div>
+                </div>
+                <div class="team">
+                    <br>
+                    <div class="team_member">
+                        <div class="team_img">
+                            <img src="/static/img/aaa.png" alt="Team_image">
+                        </div>
+                        <h3>Muflih Naufal Maxi</h3>
+                    </div>
+                    <br>
+                    <div class="team_member">
+                        <div class="team_img">
+                            <img src="/static/img/aaa.png" alt="Team_image">
+                        </div>
+                        <h3>Shafanisa Aulia Suparno</h3>
+                    </div>
+                    <br>
+                    <div class="team_member">
+                        <div class="team_img">
+                            <img src="/static/img/aaa.png" alt="Team_image">
+                        </div>
+                        <h3>Sayyid Hafidzurrahman Atstsaqofi</h3>
+                    </div>
+                    <br>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <footer class="text-center text-white" style="background-color: #f1f1f1;">
+        <!-- Copyright -->
+        <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            ©2022 Copyright:
+            <a class="text-dark" href="https://pbp-d01.herokuapp.com/">re.cycle</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+</div>
+
+</body>
+{% endblock content %}

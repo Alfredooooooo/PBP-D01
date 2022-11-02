@@ -22,6 +22,7 @@ urlpatterns = [
     path('forum/', include('forum.urls')),
     path('adminpage/', include('adminpage.urls')),
     path('recycle/', include('recycle.urls')),  
+    path('aboutus/', include('aboutus.urls')),
 ]
 
 # TODO: Implement Routings Here
