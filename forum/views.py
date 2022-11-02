@@ -49,9 +49,10 @@ def add_comment(request, id1, id2):
     return HttpResponseNotFound()
 
 def delete_comment(request, id):
-    comment = Comment.objects.get(id=id)
-    if request.method == 'POST' and comment.user == request.user:
-        comment.delete()
-        return HttpResponse(b"DELETED", status=200)
+    if request.method == 'POST':
+        comment = Comment.objects.get(id=id)
+        if comment.user == request.user:
+            comment.delete()
+            return HttpResponse(b"DELETED", status=200)
 
     return HttpResponseNotFound()
