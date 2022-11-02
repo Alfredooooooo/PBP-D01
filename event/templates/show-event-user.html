@@ -4,740 +4,119 @@
 {% block meta %}
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
 <link rel="stylesheet" href="\static\css\event-user.css">
-
-<script src="\static\js\event-user.js"></script>
+{% if request.user.is_superuser %}
+<script src="\static\js\event-admin.js"></script>
+{% elif request.user.is_authenticated %}
+  <script src="\static\js\event-manager.js"></script>
+{% else %}
+  <script src="\static\js\event-user.js"></script>
+{% endif %}
 {% endblock meta %}
 {% block content %}
 {% include 'navbar.html' %}
 
-<br>
+
+
+<div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="AddEventModal" aria-hidden="true" style="z-index: 10000000000000000000000;">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="AddEventModal">Tambah Event Baru</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form action="add-event/" method="POST" id="formCreateEvent">
+              {% csrf_token %}
+              <div class="modal-body">
+                  {{form.as_p}}
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" id="button-close-add-event">Close</button>
+                  <button type="submit" class="btn btn-outline-success" id="button-add-event">Add Event</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+
 
 <div class="container-div">
   <div class="row">
     <div class="container-button d-flex justify-content-around  align-items-center">
-      <a class="btn btn-primary text-sm" id="button-past-event">Event yang Telah Selesai</a>
-      <a class="btn btn-primary" id="button-now-event">Event yang Sedang Berlangsung</a>
-      <a class="btn btn-primary" id="button-upcoming-event">Event yang Akan Datang</a>
+      <a href="#your-event" class="btn btn-primary" id="button-your-event">Event Anda</a>
+      <a href="#event-berlangsung" class="btn btn-primary" id="button-now-event">Event Sedang Berlangsung</a>
+      <a href="#event-akan-datang" class="btn btn-primary" id="button-upcoming-event">Event Akan Datang</a>
+      <a href="#event-selesai" class="btn btn-primary text-sm" id="button-past-event">Event Telah Berakhir</a>
     </div>
   </div>
 </div>
 
 <section id="recently-viewed">
-  <div class="container-recent-view d-flex  align-content-around flex-wrap">
-    <div class="d-flex  flex-row  justify-content-center between align-item-center recent-view-header ">
-      <div class=" d-flex justify-content-stretch align-item-center text-center event-dilihat">
-        <div class="card p-2"  id="banner-event-terakhir-dilihat">
-          <div class="card-body d-flex justify-content-between text-center " style="text-align: center;">
-            <h1 class="d-flex  text-center"style="font-size:2rem;font-weight:1000; text-align:center;color: white;" >EVENT TERAKHIR DILIHAT</h1>
-          </div>
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Terakhir Dilihat</h1>
+  </div>
+  <div id="recently-viewed-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-recent-content">
 
-        </div>
-      </div>
-      <div class="d-flex align-content-around flex-wrap" id="content-recently-viewed">
       
-
-        <div class="">
-          <div class="card p-2" style="width: 20rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 20rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar</h4>
-              <div class="d-flex justify-content-center align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content";"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm"  formaction="/forum/1"  style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i></button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>`
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 20rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar</h4>
-              <div class="d-flex justify-content-center align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-
-</section>
-
-
-<section id="event-berlangsung" class="m-auto">
-  <div class="container-event-now d-flex  align-content-around flex-wrap mx-auto">
-    <div class="d-flex  flex-row  justify-content-center between align-item-center event-now-header ">
-      <div class=" d-flex justify-content-stretch align-item-center text-center event-berlangsung">
-        <div class="card p-2" style="width: 16rem;">
-          <div class="card-body d-flex justify-content-between text-center " style="text-align: center;">
-            <h1 class="d-flex  text-center"style="font-size:1.8rem;font-weight:1000; text-align:center;color: white;">EVENT SEDANG BERLANGSUNG</h1>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="d-flex align-content-around flex-wrap " >
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div><div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div><div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div><div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar</h4>
-              <div class="d-flex justify-content-center align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content";"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm"  formaction="/forum/1"  style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i></button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>`
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar</h4>
-              <div class="d-flex justify-content-center align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-</section>
-
-<section id="event-akan-datang" class="m-auto">
-  <div class="container-event-now d-flex  align-content-around flex-wrap mx-auto">
-    <div class="d-flex  flex-row  justify-content-center between align-item-center event-now-header ">
-      <div class=" d-flex justify-content-stretch align-item-center text-center event-akan-datang">
-        <div class="card p-2" style="width: 16rem;">
-          <div class="card-body d-flex justify-content-between text-center " style="text-align: center;">
-            <h1 class="d-flex  text-center"style="font-size:2rem;font-weight:1000; text-align:center;color: white;">EVENT AKAN DATANG</h1>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="d-flex align-content-around flex-wrap " >
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                  30/12/2022 - 15:34</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div><div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div><div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div><div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar</h4>
-              <div class="d-flex justify-content-center align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content";"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm"  formaction="/forum/1"  style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i></button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>`
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar</h4>
-              <div class="d-flex justify-content-center align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-
-</section>
-
-
-<section id="event-selesai" class="m-auto">
-  <div class="container-event-now d-flex  align-content-around flex-wrap mx-auto">
-    <div class="d-flex  flex-row  justify-content-center between align-item-center event-now-header ">
-      <div class=" d-flex justify-content-stretch align-item-center text-center event-selesai">
-        <div class="card p-2" style="width: 16rem;">
-          <div class="card-body d-flex justify-content-between text-center " style="text-align: center;">
-            <h1 class="d-flex  text-center"style="font-size:2rem;font-weight:1000; text-align:center;color: white;">EVENT TELAH BERAKHIR</h1>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="d-flex align-content-around flex-wrap " >
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div><div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div><div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div><div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, tempore?</h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar</h4>
-              <div class="d-flex justify-content-center align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content";"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm"  formaction="/forum/1"  style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i></button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>`
-          </div>
-        </div>
-        <div class="">
-          <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-            <div class="card-body align-item-center justify-content-center">
-              <h4 style="font-size: medium;">Mancing bersama Pak Ganjar</h4>
-              <div class="d-flex justify-content-center align-items-center">
-                <p style="font-size: small;" class="event-brief ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, porro.</p>
-              </div>
-
-              <div class="date-container d-flex flex-row align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                    10/10/2004 12:11</p> <br>
-                </div>
-
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 10/10/2004 12:11</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-command-button d-flex justify-content-around align-item-center">
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-              <button class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-</section>
-
-<section id="event-selesai" class="m-auto">
-  <div class="container-event-now ">
-    <div class="">
-      <div class=" d-flex justify-content-stretch align-item-center text-center event-selesai">
-        <div class="card p-2" style="width: 16rem;">
-          <div class="card-body d-flex justify-content-between text-center " style="text-align: center;">
-            <h1 class="d-flex  text-center"style="font-size:2rem;font-weight:1000; text-align:center;color: white;">EVENT TELAH BERAKHIR</h1>
-          </div>
-        </div>
-
-        <div class="card p-2" style="width: 16rem;">
-          <div class="card-body d-flex justify-content-between text-center " style="text-align: center;">
-            <h1 class="d-flex  text-center"style="font-size:1.8rem;font-weight:1000; text-align:center;color: white;">BELUM ADA EVENT UNTUK WAKTU YANG AKAN DATANG :(</h1>
-          </div>
-      </div>
-
-  
     </div>
   </div>
 </section>
 
-<button type="button" class="btn btn-primary" data-toggle="modal"  onClick="showModal(1)" data-target="#exampleModal">
-  Launch demo modal
-</button>
+<section id="your-event">
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Anda</h1>
+    <a class="btn btn-create-event btn-sm" style="display: none;" id="button-hidden" onclick="showCreateEventForm()"><i class="fa-solid fa-plus"></i></a>
+  </div>
+  <div id="your-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-your-content">
+      {% if not request.user.is_authenticated %}
+      <div class="null-text">
+        <h1>Anda harus login Untuk mengatur dan menambahkan event 🙏</h1>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
+<section id="event-berlangsung" >
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Sedang Berlangsung</h1>
+  </div>
+  <div id="now-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-now-content">
+      
+    </div>
+  </div>
+</section>
+
+<section id="event-akan-datang">
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Akan Datang</h1>
+  </div>
+  <div id="now-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-future-content">
+      
+      
+    </div>
+  </div>
+</section>
+
+<section id="event-selesai">
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Telah Berakhir</h1>
+  </div>
+  <div id="now-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-past-content">
+      
+    </div>
+  </div>
+</section>
+
+
+
+
 
 <!-- Show detail Event on Modal -->
 <div class="modal fade" id="exampleModal" style="z-index: 999999999999999999;font-family: Poppins;" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
