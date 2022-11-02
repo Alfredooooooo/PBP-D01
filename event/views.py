@@ -15,19 +15,13 @@ from .models import *
 from .forms import EventForm
 
 
-# Create your views here.
-def event_manager(request):
-    return render(request, "show-event-manager.html")
 
-def event_user(request):
+def index(request):
     form = EventForm()
-    # if request.user.is_authenticated:
-    #     return render(request, "show-event-manager.html")
-    # else:
     context={
         "form": form
     }
-    return render(request, "show-event-user.html", context)
+    return render(request, "show-event.html", context)
 
 def show_recently_viewed_event(request):
     if request.method == 'GET':
