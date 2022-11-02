@@ -473,11 +473,18 @@ function showModal(pk) {
           modal_content += `
           <div class="modal-content"> 
           <div class="modal-header">
-            <h4 class="modal-title" id="modal-judul">📅 ${data.fields.title} 📅</h4>
+            <h4 class="modal-title" id="modal-judul">Detail Event</h4>
           </div>
           <div class="modal-body">
             <div class="date-container d-flex flex-column align-item-center">
-              
+            <div class="d-flex align-item-center">
+            <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+              <span id="text-brief" style="font-size: small;">📅Judul📅</span>  </p> <br>
+          </div>
+          <div class="d-flex align-item-start">
+          <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+          ${data.fields.title}</p> <br>
+        </div>
               <div class="d-flex align-item-center">
                 <p class="p-text-date" style="font-size: small; width: fit-content;"> 
                   <i class="fa-solid fa-circle-info"></i> 

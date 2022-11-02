@@ -468,48 +468,55 @@ function formatDate(date) {
             let finish_date_formatted = formatDate(data.fields.finish_date);
             modal_content += `
             <div class="modal-content"> 
-            <div class="modal-header">
-              <h4 class="modal-title" id="modal-judul">📅 ${data.fields.title} 📅</h4>
-            </div>
-            <div class="modal-body">
-              <div class="date-container d-flex flex-column align-item-center">
-                
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                    <i class="fa-solid fa-circle-info"></i> 
-                    <span id="text-brief" style="font-size: small;">Deskripsi singkat :</span>  </p> <br>
-                    
-                </div>
-                <div class="d-flex align-item-start">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                  ${data.fields.brief}</p> <br>
-                </div>
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                    <i class="fa-solid fa-rectangle-list"></i>
-                    <span id="text-deskripsi" style="font-size: small;">Deskripsi :</span> </p> <br>
-                </div>
-                <div class="d-flex align-item-start">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                  ${data.fields.description}</p> <br>
-                </div>
-                
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                    <i class="fa-regular fa-calendar"></i>
-                    <span id="text-mulai" style="font-size: small;">Waktu dimulai :</span>${start_date_formatted}</p> <br>
-                </div>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-judul">Detail Event</h4>
+          </div>
+          <div class="modal-body">
+            <div class="date-container d-flex flex-column align-item-center">
+            <div class="d-flex align-item-center">
+            <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+              <span id="text-brief" style="font-size: small;">📅Judul📅</span>  </p> <br>
+          </div>
+          <div class="d-flex align-item-start">
+          <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+          ${data.fields.title}</p> <br>
+        </div>
               <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;">
-                     <i class="fa-regular fa-calendar-xmark"></i> 
-                     <span id="text-selesai" style="font-size: small;">Waktu selesai :</span> ${finish_date_formatted}</p> <br>
-                </div>
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                  <i class="fa-solid fa-circle-info"></i> 
+                  <span id="text-brief" style="font-size: small;">Deskripsi singkat :</span>  </p> <br>
+                  
+              </div>
+              <div class="d-flex align-item-start">
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                ${data.fields.brief}</p> <br>
+              </div>
+              <div class="d-flex align-item-center">
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                  <i class="fa-solid fa-rectangle-list"></i>
+                  <span id="text-deskripsi" style="font-size: small;">Deskripsi :</span> </p> <br>
+              </div>
+              <div class="d-flex align-item-start">
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                ${data.fields.description}</p> <br>
+              </div>
+              
+              <div class="d-flex align-item-center">
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                  <i class="fa-regular fa-calendar"></i>
+                  <span id="text-mulai" style="font-size: small;">Waktu dimulai :</span>${start_date_formatted}</p> <br>
+              </div>
+            <div class="d-flex align-item-center">
+                <p class="p-text-date" style="font-size: small; width: fit-content;">
+                   <i class="fa-regular fa-calendar-xmark"></i> 
+                   <span id="text-selesai" style="font-size: small;">Waktu selesai :</span> ${finish_date_formatted}</p> <br>
               </div>
             </div>
-            <div class="modal-footer d-flex justify-content-end align-item-end flex-column">
-              <button type="button" class="btn btn-secondary btn-danger" onClick="closeModal()" id="btn-close-modal" data-dismiss="modal">Close</button>
-            </div>
           </div>
+          <div class="modal-footer d-flex justify-content-end align-item-end flex-column">
+            <button type="button" class="btn btn-secondary btn-danger" onClick="closeModal()" id="btn-close-modal" data-dismiss="modal">Close</button>
+          </div>
+        </div>
               `;
   
           }
