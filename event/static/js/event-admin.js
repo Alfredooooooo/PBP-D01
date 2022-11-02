@@ -121,6 +121,7 @@ function formatDate(date) {
         },
     });
     $("#createEventModal").modal("hide");
+    $("#formCreateEvent").trigger("reset");
   });
   
   

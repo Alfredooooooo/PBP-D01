@@ -124,6 +124,9 @@ $("#formCreateEvent").on("submit", (e) => {
           alert("Error: ", e);
       },
   });
+  $("#createEventModal").modal("hide");
+  $("#formCreateEvent").trigger("reset");
+
 });
 
 
