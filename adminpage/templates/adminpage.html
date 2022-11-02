@@ -71,15 +71,12 @@
                 $("#hfRowIndex").val("");
             }
         </script>
-        <nav class="navbar navbar-dark bg-mynav">
         <h3>Admin Page</h3>
         </nav>
-        <div
-        class="bg-image"
+        <div class="bg-image" alt="Responsive image"
         style="
             background-image: url(https://png.pngtree.com/thumb_back/fh260/back_our/20190617/ourmid/pngtree-creative-environmental-protection-background-material-template-image_125709.jpg);
-            height: 37vh;
-        "></div>
+            height: 37vh;"></div>
             <div class="alert alert-success rounded-0" role="alert" >
             <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
@@ -131,7 +128,7 @@
                 <div class="modal-dialog">
                 <div class="modal-content">
                               </div>
-                              </div>
+                            </div>
                           </form>
                       </div>
                   </div>
@@ -172,10 +169,9 @@
                 <ul class="navbar-nav d-grid gap-3 d-md-block align-items:center">
                     <button type='button' class="btn btn-success" id='btnClear'>Clear</button>
             </tr>
-
         </table>
-        <table id="tblCustomers" class="table">
-            <thead>
+            <table id="tblCustomers" class="table">
+                <thead>
                 <tr>
                     <th></th>
                     <th>Title</th>
@@ -183,42 +179,42 @@
                     <th>Update</th>
                     <th>Remove</th>
                 </tr>
-            </thead>
-        </table>
+                </thead>
+            </table>
         </div>
-    <script>
-            $('form').on('submit', function(e) {
-                e.preventDefault();
- 
-                var newtask = $('#task').val();
-                var task_elem = $('<div>')
-                    .append('<input type="checkbox">')
-                    .addClass('task')
-                    .append(newtask);
-                $('#tasks').append(task_elem);
-                $.ajax({
-                    url: '/',
-                    method: 'post',
-                    dataType: 'json',
-                    data: {
-                        task: newtask,
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        console.log(JSON.stringify(response));
-                    },
-                });
+        <script>
+        $('form').on('submit', function(e) {
+            e.preventDefault();
+
+            var newtask = $('#task').val();
+            var task_elem = $('<div>')
+                .append('<input type="checkbox">')
+                .addClass('task')
+                .append(newtask);
+            $('#tasks').append(task_elem);
+            $.ajax({
+                url: '/',
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    task: newtask,
+                },
+                success: function(response) {
+                    console.log(response);
+                    console.log(JSON.stringify(response));
+                },
             });
-            $('body').on('click', 'input[type="checkbox"]', function() {
-                var task = $(this).parents('.task');
-                if(task.hasClass('strikeout')) {
-                    task.removeClass('strikeout');
-                    task.appendTo($('#tasks'));
-                } else {
-                    task.addClass('strikeout');
-                    task.appendTo($('#done'));
-                }
-            });
+        });
+        $('body').on('click', 'input[type="checkbox"]', function() {
+            var task = $(this).parents('.task');
+            if(task.hasClass('strikeout')) {
+                task.removeClass('strikeout');
+                task.appendTo($('#tasks'));
+            } else {
+                task.addClass('strikeout');
+                task.appendTo($('#done'));
+            }
+        });
         </script>
         <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
         <h2>⌞SUGGESTION FORM⌝</h2>
@@ -227,10 +223,10 @@
             {% csrf_token %}
             <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control" name="nama_barang"></input>
+            <input type="text" class="form-control" name="nama_admin"></input>
             <div class="form-group">
             <label>Email</label>
-            <input type="text" class="form-control" name="harga_barang"></input>
+            <input type="text" class="form-control" name="email_admin"></input>
             <div class="form-group">
             <label>Describe Feedback:</label>
             <textarea class="form-control" input type="text" rows="3" name="deskripsi"></textarea>
@@ -244,105 +240,109 @@
         </div>
         </form>
         <div class="items">
-            <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
-                <h1>Contact Us</h1>
-                <form action="/adminpage/create_task/" method="POST">
-                    {% csrf_token %}
-                    <table>
-                        {{ form.as_table }}
-                    </table>
-                    <center><button id="button" type="submit" value="Submit" class="btn btn-success mt-2">Submit</center></button>
-                </form>
+                <div class="card text-bg-light mb-3" style="max-width: 50rem; align-items:center">
+                    <h1>Contact Us</h1>
+                    <form action="/adminpage/create_task/" method="POST">
+                        {% csrf_token %}
+                        <table>
+                            {{ form.as_table }}
+                        </table>
+                        <center><button id="button" type="submit" value="Submit" class="btn btn-success mt-2">Submit</center></button>
+                    </form>
+                </div>
+                </div>
             </div>
+        </div>
+        <script>
+        async function getAdminpage() {
+        return fetch("{% url 'get_adminpage_json' %}").then((res) => res.json())
+        }
+        async function refreshAdminpage() {
+            document.getElementById("table").innerHTML = ""
+            const adminpage = await getAdminpage()
+            let htmlString = `<tr>
+                <th class="text-center">───Feedback you've previously left for this site───</th>
+            </tr>`
+            adminpage.forEach((item) => {
+            htmlString += `\n
+            <div class="container p-4" style="max-width: 50rem; align-items:center">            
+            <div class="card">
+            <label class="text-center">♻️ FEEDBACK ♻️</label>
+            <hr>
+            <p class="text-left">Nama➔ ${item.fields.nama_admin}</p>
+            <p class="text-left">Email➔ ${item.fields.email_admin}</p>
+            <p class="text-left">Feedback➔ ${item.fields.deskripsi}</p>
+            </div>
+            </div>`
+            })
+            document.getElementById("table").innerHTML = htmlString
+            }
+            function addAdminpage() {
+            fetch("{% url 'add_adminpage_item' %}", { 
+                    method: "POST",
+                    body: new FormData(document.querySelector('#form'))
+                }).then(refreshAdminpage)
+            return false
+            }
+            document.getElementById("button").onclick = addAdminpage
+            refreshAdminpage()
+        </script>
+        <div class="card text-bg-success mb-3" style="max-width: 50rem; align-items:center">
+        <h5 class="card-title">Go Green! Reduce, Reuse, Recycle!</h5>
+        <p class="card-text">╰──╮˗ˏˋLet us participate´ˎ˗╭──╯</p>
+        <a href="#" class="btn btn-outline-light mt-1" style="font-weight:700">Click Here To Go Back</a>
+        <br>
+        <div class="spinner-border spinner-border-sm" role="status">
+            <span class="sr-only">🟢</span>
+        </div>
+        </div>
+        <div class="container">                      
+            <div class="row text-center justify-content-center mb-5">
+                <div class="col-xl-6 col-lg-8">
+                    <h2 class="font-weight-bold">REDUCE REUSE RECYCLE</h2>
+                    <p class="text-muted">We really appreciate you stepping in to support us</p>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col">
+                <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                    <div class="timeline-step">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">REDUCE</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">Reduce the amount of waste you produce</p>
+                        </div>
+                    </div>
+                <div class="timeline-step">
+                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
+                        <div class="inner-circle"></div>
+                        <p class="h6 mt-3 mb-1">REUSE</p>
+                        <p class="h6 text-muted mb-0 mb-lg-0">Reuse items as much as you can before replacing them</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
+                        <div class="inner-circle"></div>
+                        <p class="h6 mt-3 mb-1">RECYCLE</p>
+                        <p class="h6 text-muted mb-0 mb-lg-0">Recycle items wherever possible</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <script>
-    async function getWishlist() {
-    return fetch("{% url 'get_wishlist_json' %}").then((res) => res.json())
-    }
-    async function refreshWishlist() {
-        document.getElementById("table").innerHTML = ""
-        const wishlist = await getWishlist()
-        let htmlString = `<tr>
-            <th class="text-center">───Feedback you've previously left for this site───</th>
-        </tr>`
-        wishlist.forEach((item) => {
-          htmlString += `\n
-        <div class="container p-4" style="max-width: 50rem; align-items:center">            
-        <div class="card">
-        <label class="text-center">[FEEDBACK]</label>
-        <p class="text-left">Nama➔ ${item.fields.nama_barang}</p>
-        <p class="text-left">Email➔ ${item.fields.harga_barang}</p>
-        <p class="text-left">Feedback➔ ${item.fields.deskripsi}</p>
-        </div>
-        </div>`
-        })
-        document.getElementById("table").innerHTML = htmlString
-  }
-  function addWishlist() {
-    fetch("{% url 'add_wishlist_item' %}", {
-          method: "POST",
-          body: new FormData(document.querySelector('#form'))
-      }).then(refreshWishlist)
-    return false
-  }
-  document.getElementById("button").onclick = addWishlist
-  refreshWishlist()
-</script>
-                  <div class="card text-bg-success mb-3" style="max-width: 50rem; align-items:center">
-                  <h5 class="card-title">Go Green! Reduce, Reuse, Recycle!</h5>
-                  <p class="card-text">╰──╮˗ˏˋLet us participate´ˎ˗╭──╯</p>
-                  <a href="#" class="btn btn-outline-light mt-1" style="font-weight:700">Click Here To Go Back</a>
-                  </div>
-                  <div class="container">                      
-                    <div class="row text-center justify-content-center mb-5">
-                        <div class="col-xl-6 col-lg-8">
-                            <h2 class="font-weight-bold">REDUCE REUSE RECYCLE</h2>
-                            <p class="text-muted">We really appreciate you stepping in to support us</p>
-                        </div>
-                    </div>
- 
-                    <div class="row">
-                        <div class="col">
-                            <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
-                                <div class="timeline-step">
-                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
-                                        <div class="inner-circle"></div>
-                                        <p class="h6 mt-3 mb-1">REDUCE</p>
-                                        <p class="h6 text-muted mb-0 mb-lg-0">Reduce the amount of waste you produce</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-step">
-                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
-                                        <div class="inner-circle"></div>
-                                        <p class="h6 mt-3 mb-1">REUSE</p>
-                                        <p class="h6 text-muted mb-0 mb-lg-0">Reuse items as much as you can before replacing them</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-step">
-                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
-                                        <div class="inner-circle"></div>
-                                        <p class="h6 mt-3 mb-1">RECYCLE</p>
-                                        <p class="h6 text-muted mb-0 mb-lg-0">Recycle items wherever possible</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                  <div class="text-center">
-                  <img src="https://www.recycleit.co.uk/wp-content/uploads/2020/05/HomePageBannerTruck.png" class="img-fluid" alt="Responsive image">
-                  </div>
-            <footer class="text-center text-white" style="background-color: #f1f1f1;">
-              <!-- Copyright -->
-              <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                ©2022 Copyright:
-                <a class="text-dark" href="https://pbp-d01.herokuapp.com/">re.cycle</a>
-              </div>
-              <!-- Copyright -->
-            </footer>
-                  </section>
-                  {% endblock content %}
-              </div>
-            </div>
+</div>
+<div class="text-center">
+<img src="https://www.recycleit.co.uk/wp-content/uploads/2020/05/HomePageBannerTruck.png" class="img-fluid" alt="Responsive image">
+</div>
+<footer class="text-center text-white" style="background-color: #f1f1f1;">
+    <!-- Copyright -->
+    <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    ©2022 Copyright:
+    <a class="text-dark" href="https://pbp-d01.herokuapp.com/">re.cycle</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+    </section>
+    {% endblock content %}
+    </div>
+</div>

@@ -6,7 +6,7 @@ function loadTaskData() {
       type: "GET",
       dataType: "json",
       success: function (dataList){
-        $("#taskContainer").html('');
+        
         for (let data of dataList){
           eventTableRow +=`
             <tr id="event-${data.pk}">
