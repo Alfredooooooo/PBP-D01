@@ -4,9 +4,7 @@ from event.views import *
 app_name = 'event'
 
 urlpatterns = [
-    path('', event_user, name="home"),
-    path('user/', event_user, name='user'),
-    path('manager/', event_manager, name='manager'),
+    path('', index, name="home"),
     path("json-all/", show_all_event, name="json-all"),
     path("json-your/", show_your_event, name="json-your"),
     path("json-recent/", show_recently_viewed_event, name="json-recent"),

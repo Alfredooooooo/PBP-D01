@@ -31,6 +31,10 @@ section *{
   #banner-event-terakhir-dilihat{
     width: 15rem;
   }
+
+.btn{
+  color:white;
+}
   
 
 }
@@ -79,6 +83,7 @@ section *{
   box-shadow: 0 0 20px #eee;
   border-radius: 10px;
   border:wheat;
+  color:white;
   font-weight: 700;
  }
 
