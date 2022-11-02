@@ -1,4 +1,4 @@
-<!-- {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block meta %}
@@ -9,8 +9,6 @@
 
 {% block content %}
     {% include 'navbar.html' %}
-    <div class="form-container">
-    
     <div class = "register center p-lg-3">
         <div class="container p-xl-3">
             {% if form.errors %}
@@ -21,25 +19,28 @@
             {% endif %}
         </div>
         <div class="container shadow bg-body rounded p-lg-5">
-            <div class="h1 mt-0 ">Register Page</div>
-            <form action="{% url 'recycle:register' %}" method="POST">
+            <div class="h1 mb-3">Register Page</div>
+            <form action="{% url 'authentications:register_user' %}" method="POST">
                 {% csrf_token %}
-        
-                <input type="text" name="name" required placeholder="enter your name">
-                <input type="email" name="email" required placeholder="enter your email">
-                <input type="password" name="password" required placeholder="enter your password">
-                <input type="password" name="cpassword" required placeholder="confirm your password">
+                <div>
+                    {{ form.username }}
+                </div>
+                <div>
+                    {{ form.password1 }}
+                </div>
+                <div>
+                    {{ form.password2 }}
+                </div>
                 <select name="user_type">
                     <option value="user">user</option>
                     <option value="admin">admin</option>
                 </select>
-                <input type="submit" name="submit" value="register now" class="form-btn">
+                <div class="d-flex justify-content-end">
+                    <input type="submit" name="submit" value="register now" class="btn btn-hover">
+                </div>
             </form>
-            <p class="margin-set">Already have an account?<a href="{% url 'recycle:login' %}" class="link"> Login now</a></p>
+            <p class="margin-set">Already have an account?<a href="{% url 'authentications:login_user' %}" class="link"> Login now</a></p>
         </div>
     </div>
 
 {% endblock content %}
-
-
- -->
