@@ -299,7 +299,7 @@ function loadFutureEvent() {
           let brief= data.fields.brief
 
           if(brief.length>30){
-            brief= brief.slice(0,27) +"..."
+            brief= brief.slice(0,25) +"..."
           }
           if(start_date>now_date){
             future_card_content += `
