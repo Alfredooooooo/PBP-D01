@@ -7,16 +7,16 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-@login_required(login_url='/recycle/login')
+@login_required(login_url="/authentications/login/")
 def adminpage(request):
     return render(request, "adminpage.html")
 
-@login_required(login_url='/recycle/login')
+@login_required(login_url="/authentications/login/")
 def get_adminpage_json(request):
     adminpage_item = AdminPage.objects.all()
     return HttpResponse(serializers.serialize('json', adminpage_item))
 
-@login_required(login_url='/recycle/login')
+@login_required(login_url="/authentications/login/")
 def add_adminpage_item(request):
     if request.method == 'POST':
         nama_admin = request.POST.get("nama_admin")
@@ -29,7 +29,7 @@ def add_adminpage_item(request):
 
     return HttpResponseNotFound()
 
-@login_required(login_url='/recycle/login')
+@login_required(login_url="/authentications/login/")
 def create_task(request):
     if request.method == "POST":
         form = TaskForm(request.POST)

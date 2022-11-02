@@ -11,18 +11,6 @@ from django.core import serializers
 from recycle.forms import RegisterUserForm
 from django.contrib.auth.models import User
 
-
-
-def user_type(request):
-  if request.method == 'POST':
-    form = RegisterUserForm(request.POST)
-
-    if form.is_valid():
-      answer = form.cleaned_data['value']
-      print(answer)
-      if answer == "admin" :
-        print(answer)
-
 def register_user(request):
     # Memanggil RegisterUserForm yang merupakan anak dari UserCreationForm
     form = RegisterUserForm()
@@ -33,7 +21,6 @@ def register_user(request):
             username = form.cleaned_data["username"]
             messages.success(
                 request, f"User dengan nama {username} berhasil dibuat")
-            user_type(request)
             # Memindahkan url user ke login agar dapat login
             return redirect("authentications:login_user")
         else:
