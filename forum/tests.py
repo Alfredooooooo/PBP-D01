@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 
 class ForumAppTest(TestCase):
     def login(self):
-        self.username = 'test1'
-        self.password = '12345qwe'
+        self.username = 'vados'
+        self.password = 'amogus123'
         user = User.objects.create_user(username=self.username)
         user.set_password(self.password)
         user.save()
