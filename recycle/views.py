@@ -32,7 +32,7 @@ def setCookieIndex(request):
 
 
 def about_us(request):
-    return render(request, 'about-us.html')
+    return render(request, 'aboutus.html')
 
 
 def objectives(request):

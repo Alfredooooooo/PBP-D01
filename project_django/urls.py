@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('recycle.urls')),
     path('recycle/', include('recycle.urls')),
+    path('aboutus/', include('aboutus.urls')),
 ]
 
 # TODO: Implement Routings Here

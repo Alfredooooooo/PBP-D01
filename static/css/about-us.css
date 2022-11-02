@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css?family=Signika');
+
+html {
+    scroll-behavior:smooth;
+}
+
+.site-footer {
+    background:#3eca8b;
+}
+#footer-content {
+    background: #27885c;
+    color:#ffffff;
+    height:160px;
+}
+.bg-mynav {
+    background-color:#27885c;
+    width:auto;
+    text-align: center;
+}  
+body{
+    font-size: 1.25rem;
+    background-image: url("/static/img/testas.png");
+    background-attachment: fixed;
+}
+.wrapper .button{
+    display: inline-block;
+    height: 60px;
+    width: 60px;
+    float: left;
+    margin: 0 5px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0px 10px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease-out;
+}
+.items {
+    display: flex;
+    justify-content: center;
+}
+.card-body {
+    width:1000px;
+    margin:20px auto;
+    padding:12px 60px;
+    background-color:#3eca8b;
+    border-radius: 10px;
+    align-content: center;
+    box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+}
+.card {
+    margin:10px auto;
+    padding:12px 60px;
+    background-color:rgb(233, 243, 248);
+    border-radius: 10px;
+    box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+}
+h1 {
+    padding: 10px;
+    font-size: large;
+    font-family:'Signika';
+    text-align: center;
+}
+h2 {
+    padding: 10px;
+    line-height: 80%;
+    text-align: center;
+    font-family:'Signika';
+    font-weight:bold;
+    font-size: x-large;
+}
+h3 {
+    color:#fff;
+    padding: 10px;
+    font-size: large;
+    font-family:'Signika';
+    font-weight: bold;
+    margin-bottom: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #27885c;
+}
+h4 {
+    font-family:'Signika';
+}
+a {
+    color: #e5e6ea;
+    font-family: 'Signika';
+}
+.card:hover {
+    box-shadow: 6px 2px 20px 0px #b0ead1;
+    background-color: rgb(232, 236, 251);
+}
+.task-button {
+    display:flex;
+    position: relative;
+    justify-content: left;
+    font-family: 'Signika';
+}
+p {
+    font-family: 'Signika';
+    font-size:small;
+    line-height: 12%;
+}
+.button1 {
+        border: 0px;
+        background-color:#38CD8B;
+        padding: 10px;
+        font-family: 'Signika', sans-serif;
+        font-size: 14px;
+        border-radius: 6px;
+        color: rgb(255, 254, 254);
+        font-family: 'Signika';
+        font-weight: bold;
+        cursor: pointer;
+        width: 120px;
+        margin-right: 100px;
+        box-shadow: 3px 1px 10px 0px rgba(0,0,0,0.30);
+}
+.button2 {
+    border: 0px;
+    background-color:#38CD8B;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Signika';
+    margin-right: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 3px 1px 10px 0px rgba(0,0,0,0.30);
+}
+.button3 {
+    border: 0px;
+    background-color: #38CD8B;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Signika';
+    margin-right: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 3px 1px 10px 0px rgba(0,0,0,0.30);
+}
+.button4 {
+    border: 0px;
+    background-color: #38CD8B;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Signika';
+    margin-right: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 3px 1px 10px 0px rgba(0,0,0,0.30);
+}
+body{margin-top:20px;}
+.timeline-steps {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap
+}
+
+.timeline-steps .timeline-step {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 1rem
+}
+
+@media (min-width:768px) {
+    .timeline-steps .timeline-step:not(:last-child):after {
+        content: "";
+        display: block;
+        border-top: .25rem dotted #3b82f6;
+        width: 3.46rem;
+        position: absolute;
+        left: 7.5rem;
+        top: .3125rem
+    }
+    .timeline-steps .timeline-step:not(:first-child):before {
+        content: "";
+        display: block;
+        border-top: .25rem dotted #3b82f6;
+        width: 3.8125rem;
+        position: absolute;
+        right: 7.5rem;
+        top: .3125rem
+    }
+}
+.timeline-steps .timeline-content {
+    width: 10rem;
+    text-align: center
+}
+
+.timeline-steps .timeline-content .inner-circle {
+    border-radius: 1.5rem;
+    height: 1rem;
+    width: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3b82f6
+}
+
+.timeline-steps .timeline-content .inner-circle:before {
+    content: "";
+    background-color: #3b82f6;
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+    min-width: 3rem;
+    border-radius: 6.25rem;
+    opacity: .5
+}
