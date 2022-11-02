@@ -59,16 +59,20 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'authentications:register_user' %}"
+                            >Register</a
+                        >
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
                         {% if user.is_authenticated %}
-                            <a class="nav-link active" aria-current="page" href="{% url 'recycle:logout' %}"
+                            <a class="nav-link active" aria-current="page" href="{% url 'authentications:logout_user' %}"
                             >Logout</a
                             >
                         {% else %}
-                            <a class="nav-link active" aria-current="page" href="{% url 'recycle:login' %}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Login</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">User</a>
-                                <a class="dropdown-item" href="#">Admin</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'authentications:login_user' %}" 
+                            >Login</a>
                               </div>
                         {% endif %}
                     </li>

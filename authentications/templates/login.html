@@ -1,4 +1,4 @@
-<!-- {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block meta %}
@@ -36,9 +36,7 @@
                             <button type="submit" class="btn btn-hover" value="login">Login</button>
                         </div>
                     </form>
-                    <p class="margin-set">Haven't make an account? <a href="{% url 'recycle:register' %}" class="link">Create one</a></p>
+                    <p class="margin-set">Haven't make an account? <a href="{% url 'authentications:register_user' %}" class="link">Create one</a></p>
                 </div>
         </div>
-{% endblock content %} -->
-
-
+{% endblock content %}
