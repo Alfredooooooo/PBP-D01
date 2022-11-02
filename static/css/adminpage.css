@@ -58,13 +58,16 @@ h2 {
     font-size: x-large;
 }
 h3 {
-    color:#ffffff;
+    color:#fff;
     padding: 10px;
     font-size: large;
     font-family:'Poppins';
     font-weight: bold;
-    margin-left: 45%;
     margin-bottom: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #27885c;
 }
 h4 {
     font-family:'Poppins';
