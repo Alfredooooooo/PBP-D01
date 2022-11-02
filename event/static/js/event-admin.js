@@ -104,9 +104,6 @@ function formatDate(date) {
         type: "POST",
         url: "/event/add-event/",
         data: $("#formCreateEvent").serialize(),
-        // beforeSend: function(){
-        //   $("#createEventModal").modal("hide");
-        // },
         success: (data) => {
             console.log(data);
             loadYourEvent();
@@ -119,6 +116,7 @@ function formatDate(date) {
             alert("Error: ", e);
         },
     });
+    $("#createEventModal").modal("hide");
   });
   
   

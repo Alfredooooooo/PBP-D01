@@ -104,9 +104,9 @@ $("#formCreateEvent").on("submit", (e) => {
       type: "POST",
       url: "/event/add-event/",
       data: $("#formCreateEvent").serialize(),
-      // beforeSend: function(){
-      //   $("#createEventModal").modal("hide");
-      // },
+      beforeSend: function(){
+        $("#createEventModal").modal("hide");
+      },
       success: (data) => {
           console.log(data);
           loadYourEvent();
