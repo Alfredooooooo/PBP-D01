@@ -37,7 +37,7 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#"
+                        <a class="nav-link active" aria-current="page" href="{% url 'recycle:adminpage' %}"
                             >Admin</a
                         >
                     </li>
@@ -52,21 +52,28 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'recycle:event' %}"
+                        <a class="nav-link active" aria-current="page" href="{% url 'event:home' %}"
                             >Event Page</a
                         >
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'authentications:register_user' %}"
+                            >Register</a
+                        >
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
                         {% if user.is_authenticated %}
-                            <a class="nav-link active" aria-current="page" href="{% url 'recycle:logout' %}"
+                            <a class="nav-link active" aria-current="page" href="{% url 'authentications:logout_user' %}"
                             >Logout</a
                             >
                         {% else %}
-                            <a class="nav-link active" aria-current="page" href="{% url 'recycle:login' %}"
-                            >Login</a
-                            >
+                            <a class="nav-link active" aria-current="page" href="{% url 'authentications:login_user' %}" 
+                            >Login</a>
+                              </div>
                         {% endif %}
                     </li>
                 </ul>

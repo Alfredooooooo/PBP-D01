@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+<link rel="stylesheet" href="\static\css\event-user.css">
+
+{% endblock meta %}
+{% block content %}
+{% include 'navbar.html' %}
+
+
+
+<div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="AddEventModal" aria-hidden="true" style="z-index: 10000000000000000000000;">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="AddEventModal">Tambah Event Baru</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form action="add-event/" method="POST" id="formCreateEvent">
+              {% csrf_token %}
+              <div class="modal-body">
+                  {{form.as_p}}
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary btn-danger" data-bs-dismiss="modal" id="button-close-add-event">Close</button>
+                  <button type="submit" class="btn btn-primary btn-success" id="button-add-event">Add Event</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+
+
+<div class="container-div">
+  <div class="row">
+    <div class="container-button d-flex justify-content-around  align-items-center">
+      <a href="#your-event" class="btn btn-primary" id="button-your-event">Event Anda</a>
+      <a href="#event-berlangsung" class="btn btn-primary" id="button-now-event">Event Sedang Berlangsung</a>
+      <a href="#event-akan-datang" class="btn btn-primary" id="button-upcoming-event">Event Akan Datang</a>
+      <a href="#event-selesai" class="btn btn-primary text-sm" id="button-past-event">Event Telah Berakhir</a>
+    </div>
+  </div>
+</div>
+
+<section id="recently-viewed">
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Terakhir Dilihat</h1>
+  </div>
+  <div id="recently-viewed-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-recent-content">
+
+      
+    </div>
+  </div>
+</section>
+
+<section id="your-event">
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Anda</h1>
+    <a class="btn btn-create-event btn-sm" style="display: none;" id="button-hidden" onclick="showCreateEventForm()"><i class="fa-solid fa-plus"></i></a>
+  </div>
+  <div id="your-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-your-content">
+      {% if not request.user.is_authenticated %}
+      <div class="null-text">
+        <h1>Anda harus login Untuk mengatur dan menambahkan event 🙏</h1>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
+<section id="event-berlangsung" >
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Sedang Berlangsung</h1>
+  </div>
+  <div id="now-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-now-content">
+      
+    </div>
+  </div>
+</section>
+
+<section id="event-akan-datang">
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Akan Datang</h1>
+  </div>
+  <div id="now-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-future-content">
+      
+      
+    </div>
+  </div>
+</section>
+
+<section id="event-selesai">
+  <div class="header-text d-flex align-items-center justify-content-center ">
+    <h1>Event Telah Berakhir</h1>
+  </div>
+  <div id="now-content">
+    <div class="container-recent-view d-flex  justify-content-center align-item-center flex-row flex-wrap" id="input-past-content">
+      
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- Show detail Event on Modal -->
+<div class="modal fade" id="exampleModal" style="z-index: 999999999999999999;font-family: Poppins;" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" id="input-isi-modal" role="document">
+  </div>
+</div>
+
+{% if request.user.is_superuser %}
+<script src="\static\js\event-admin.js"></script>
+{% elif request.user.is_authenticated %}
+  <script src="\static\js\event-manager.js"></script>
+{% else %}
+  <script src="\static\js\event-user.js"></script>
+{% endif %}
+<!-- <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script> -->
+
+
+{% endblock content %}
