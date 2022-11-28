@@ -1,43 +1,45 @@
 from django.shortcuts import render
-from adminpage.models import BarangWishlist
+from adminpage.models import AdminPage
 from django.http import HttpResponse, HttpResponseNotFound
 from django.core import serializers
 from adminpage.forms import TaskForm
-from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-def wishlist(request):
+@login_required(login_url="/authentications/login/")
+def adminpage(request):
     return render(request, "adminpage.html")
 
-def get_wishlist_json(request):
-    wishlist_item = BarangWishlist.objects.all()
-    return HttpResponse(serializers.serialize('json', wishlist_item))
+@login_required(login_url="/authentications/login/")
+def get_adminpage_json(request):
+    adminpage_item = AdminPage.objects.all()
+    return HttpResponse(serializers.serialize('json', adminpage_item))
 
-def add_wishlist_item(request):
+@login_required(login_url="/authentications/login/")
+def add_adminpage_item(request):
     if request.method == 'POST':
-        nama_barang = request.POST.get("nama_barang")
-        harga_barang = request.POST.get("harga_barang")
+        nama_admin = request.POST.get("nama_admin")
+        email_admin = request.POST.get("email_admin")
         deskripsi = request.POST.get("deskripsi")
-        new_barang = BarangWishlist(nama_barang=nama_barang, harga_barang=harga_barang, deskripsi=deskripsi)
-        new_barang.save()
+        new_data = AdminPage(user=request.user, nama_admin=nama_admin, email_admin=email_admin, deskripsi=deskripsi)
+        new_data.save()
 
         return HttpResponse(b"CREATED", status=201)
 
     return HttpResponseNotFound()
 
+@login_required(login_url="/authentications/login/")
 def create_task(request):
     if request.method == "POST":
         form = TaskForm(request.POST)
-        if form.is_valid(): # Kondisi data pada field valid
-            task = BarangWishlist(
-                nama_barang = form.cleaned_data['nama_barang'], 
-                deskripsi = form.cleaned_data['deskripsi'],
-            )
-            task.save() # Menyimpan task ke database
-            return HttpResponseRedirect(reverse("adminpage:adminpage"))
+        if form.is_valid():
+            
+            return render(request, "adminpage.html")
     else:
         form = TaskForm()
     
     context = {'form':form}
     return render(request, "adminpage.html", context)
+
+

@@ -30,7 +30,7 @@ def setCookieIndex(request):
     return response
 
 def about_us(request):
-    return render(request, 'about-us.html')
+    return render(request, 'aboutus.html')
 
 def objectives(request):
     return render(request, 'objectives.html')
@@ -38,61 +38,19 @@ def objectives(request):
 def event(request):
     return render(request, 'event.html')
 
-@login_required(login_url="/recycle/login/")
+@login_required(login_url="/authentications/login/")
 def adminpage(request):
+    
     return render(request, 'adminpage.html')
 
-def register_user(request):
-    # Memanggil RegisterUserForm yang merupakan anak dari UserCreationForm
-    form = RegisterUserForm()
-    if (request.method == "POST"):
-        form = RegisterUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data["username"]
-            messages.success(
-                request, f"User dengan nama {username} berhasil dibuat")
-            # Memindahkan url user ke login agar dapat login
-            return redirect("recycle:login")
-        else:
-            messages.info(
-                request, "Ada yang salah dalam proses Registrasi. Silahkan coba lagi!")
-    return render(request, "authentication/register.html", {
-        "form": form,
-    })
 
-
-def login_user(request):
-    # Find POST method
-    if request.method == "POST":
-        # Get the username and password from name attribute in input tag
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            response = HttpResponseRedirect(
-                reverse("recycle:index"))  # membuat response
-            return response
-        else:
-            messages.info(request, "Username atau Password salah!")
-    return render(request, "authentication/login.html", {})
-
-
-def logout_user(request):
-    # Melakukan logout
-    logout(request)
-    response = HttpResponseRedirect(reverse("recycle:login"))
-    return response
-
-
-@login_required(login_url="/recycle/login/")
+@login_required(login_url="/authentications/login/")
 def show_json_by_user(request):
     data = Question.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 
-@login_required(login_url="/recycle/login/")
+@login_required(login_url="/authentications/login/")
 def show_json_not_by_user(request):
     data = Question.objects.exclude(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")

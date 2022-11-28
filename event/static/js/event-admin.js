@@ -31,20 +31,19 @@ function formatDate(date) {
             let start_date_formatted = formatDate(data.fields.start_date);
             let finish_date_formatted = formatDate(data.fields.finish_date);
             let brief= data.fields.brief
-
             if(brief.length>30){
               brief= brief.slice(0,27) +"..."
             }
             your_card_content += `
               <div class="" id="event-${data.pk}">
                 <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-                  <div class="card-body align-item-center justify-content-center">
+                  <div class="card-body align-items-center justify-content-center">
                     <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-center align-items-center">
                       <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${brief}</p>
                     </div>
   
-                    <div class="date-container d-flex flex-row align-item-center">
+                    <div class="date-container d-flex flex-row align-items-center">
                       <div class="d-flex align-item-center">
                         <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
                           ${start_date_formatted}</p> <br>
@@ -109,9 +108,6 @@ function formatDate(date) {
         type: "POST",
         url: "/event/add-event/",
         data: $("#formCreateEvent").serialize(),
-        // beforeSend: function(){
-        //   $("#createEventModal").modal("hide");
-        // },
         success: (data) => {
             console.log(data);
             loadYourEvent();
@@ -119,12 +115,12 @@ function formatDate(date) {
             loadNowEvent();
             loadFutureEvent();
             loadPastEvent();
-            return false;
         },
         error: (e) => {
             alert("Error: ", e);
         },
     });
+    $("#createEventModal").modal("hide");
   });
   
   
@@ -140,38 +136,38 @@ function formatDate(date) {
             let start_date_formatted = formatDate(data.fields.start_date);
             let finish_date_formatted = formatDate(data.fields.finish_date);
             let brief= data.fields.brief
-
             if(brief.length>30){
               brief= brief.slice(0,27) +"..."
             }
             recent_card_content += `
-              <div class="" id="event-${data.pk}">
-                <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
-                  <div class="card-body align-item-center justify-content-center">
-                    <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${brief}</p>
-                    </div>
-  
-                    <div class="date-container d-flex flex-row align-item-center">
-                      <div class="d-flex align-item-center">
-                        <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
-                          ${start_date_formatted}</p> <br>
-                      </div>
-  
-                      <div class="d-flex align-item-center">
-                        <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 
-                        ${finish_date_formatted}</p>
-                      </div>
-                    </div>
+            <div class="" id="event-${data.pk}">
+            <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
+              <div class="card-body align-item-center justify-content-center">
+                <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
+                <div class="d-flex justify-content-between align-items-center">
+                  <p style="font-size: small;" class="event-brief" id="brief-${data.pk}">${brief}</p>
+                </div>
+
+                <div class="date-container d-flex flex-row align-item-center">
+                  <div class="d-flex align-item-center">
+                    <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar"></i> <span id="text-mulai" style="font-size: small;">Start :</span>
+                      ${start_date_formatted}</p> <br>
                   </div>
-  
-                  <div class="card-command-button d-flex justify-content-around align-item-center">
-                    <button onClick="showModal(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
-                    <button onClick="showForum(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
+
+                  <div class="d-flex align-item-center">
+                    <p class="p-text-date" style="font-size: small; width: fit-content;"> <i class="fa-regular fa-calendar-xmark"></i> <span id="text-selesai" style="font-size: small; width: fit-content;">Finish :</span> 
+                    ${finish_date_formatted}</p>
                   </div>
                 </div>
               </div>
+
+              <div class="card-command-button d-flex justify-content-around align-item-center">
+                <button onClick="deleteEvent(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-trash-can"></i></button>
+                <button onClick="showModal(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
+                <button onClick="showForum(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
+              </div>
+            </div>
+          </div>
               `;
           }
   
@@ -223,7 +219,7 @@ function formatDate(date) {
             }
             if(start_date<=now_date && finish_date>=now_date){
               now_card_content += `
-              <div class="" id="event-${data.pk}" >
+              <div class="" id="event-${data.pk}">
                 <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
                   <div class="card-body align-item-center justify-content-center">
                     <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
@@ -245,13 +241,12 @@ function formatDate(date) {
                   </div>
   
                   <div class="card-command-button d-flex justify-content-around align-item-center">
+                    <button onClick="deleteEvent(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-trash-can"></i></button>
                     <button onClick="showModal(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
                     <button onClick="showForum(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
                   </div>
                 </div>
               </div>
-              
-              
               `;
             }
           }
@@ -300,11 +295,11 @@ function formatDate(date) {
             let brief= data.fields.brief
 
             if(brief.length>30){
-              brief= brief.slice(0,27) +"..."
+              brief= brief.slice(0,25) +"..."
             }
             if(start_date>now_date){
               future_card_content += `
-              <div class="" id="event-${data.pk}" >
+              <div class="" id="event-${data.pk}">
                 <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
                   <div class="card-body align-item-center justify-content-center">
                     <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
@@ -326,13 +321,12 @@ function formatDate(date) {
                   </div>
   
                   <div class="card-command-button d-flex justify-content-around align-item-center">
+                    <button onClick="deleteEvent(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-trash-can"></i></button>
                     <button onClick="showModal(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
                     <button onClick="showForum(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
                   </div>
                 </div>
               </div>
-              
-              
               `;
             }
           }
@@ -385,7 +379,7 @@ function formatDate(date) {
             }
             if(finish_date<=now_date){
               past_card_content += `
-              <div class="" id="event-${data.pk}" >
+              <div class="" id="event-${data.pk}">
                 <div class="card p-2" style="width: 16rem; font-size: 0.1rem;">
                   <div class="card-body align-item-center justify-content-center">
                     <h4 style="font-size: medium;" id="title-${data.pk}">${data.fields.title}</h4>
@@ -407,6 +401,7 @@ function formatDate(date) {
                   </div>
   
                   <div class="card-command-button d-flex justify-content-around align-item-center">
+                    <button onClick="deleteEvent(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-trash-can"></i></button>
                     <button onClick="showModal(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-solid fa-circle-info"> </i> </button>
                     <button onClick="showForum(${data.pk})" class="btn btn-sm" style="font-size: small; text-align: center; width: fit-content; "><i class="fa-sharp fa-solid fa-comment-dots"> </i> </button>
                   </div>
@@ -439,6 +434,7 @@ function formatDate(date) {
   
   
   $(document).ready(function () {
+    loadYourEvent();
     loadRecentlyViewed();
     loadNowEvent();
     loadFutureEvent();
@@ -472,47 +468,55 @@ function formatDate(date) {
             let finish_date_formatted = formatDate(data.fields.finish_date);
             modal_content += `
             <div class="modal-content"> 
-            <div class="modal-header">
-              <h4 class="modal-title" id="modal-judul">📅 ${data.fields.title} 📅</h4>
-            </div>
-            <div class="modal-body">
-              <div class="date-container d-flex flex-column align-item-center">
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                    <i class="fa-solid fa-circle-info"></i> 
-                    <span id="text-brief" style="font-size: small;">Deskripsi Singkat :</span>  </p> <br>
-                    
-                </div>
-                <div class="d-flex align-item-start">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                  ${data.fields.brief}</p> <br>
-                </div>
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                    <i class="fa-solid fa-rectangle-list"></i>
-                    <span id="text-deskripsi" style="font-size: small;">Deskripsi :</span> </p> <br>
-                </div>
-                <div class="d-flex align-item-start">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                  ${data.fields.description}</p> <br>
-                </div>
-                
-                <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;"> 
-                    <i class="fa-regular fa-calendar"></i>
-                    <span id="text-mulai" style="font-size: small;">Waktu dimulai :</span>${start_date_formatted}</p> <br>
-                </div>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-judul">Detail Event</h4>
+          </div>
+          <div class="modal-body">
+            <div class="date-container d-flex flex-column align-item-center">
+            <div class="d-flex align-item-center">
+            <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+              <span id="text-brief" style="font-size: small;">📅Judul📅</span>  </p> <br>
+          </div>
+          <div class="d-flex align-item-start">
+          <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+          ${data.fields.title}</p> <br>
+        </div>
               <div class="d-flex align-item-center">
-                  <p class="p-text-date" style="font-size: small; width: fit-content;">
-                     <i class="fa-regular fa-calendar-xmark"></i> 
-                     <span id="text-selesai" style="font-size: small;">Waktu selesai :</span> ${finish_date_formatted}</p> <br>
-                </div>
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                  <i class="fa-solid fa-circle-info"></i> 
+                  <span id="text-brief" style="font-size: small;">Deskripsi singkat :</span>  </p> <br>
+                  
+              </div>
+              <div class="d-flex align-item-start">
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                ${data.fields.brief}</p> <br>
+              </div>
+              <div class="d-flex align-item-center">
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                  <i class="fa-solid fa-rectangle-list"></i>
+                  <span id="text-deskripsi" style="font-size: small;">Deskripsi :</span> </p> <br>
+              </div>
+              <div class="d-flex align-item-start">
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                ${data.fields.description}</p> <br>
+              </div>
+              
+              <div class="d-flex align-item-center">
+                <p class="p-text-date" style="font-size: small; width: fit-content;"> 
+                  <i class="fa-regular fa-calendar"></i>
+                  <span id="text-mulai" style="font-size: small;">Waktu dimulai :</span>${start_date_formatted}</p> <br>
+              </div>
+            <div class="d-flex align-item-center">
+                <p class="p-text-date" style="font-size: small; width: fit-content;">
+                   <i class="fa-regular fa-calendar-xmark"></i> 
+                   <span id="text-selesai" style="font-size: small;">Waktu selesai :</span> ${finish_date_formatted}</p> <br>
               </div>
             </div>
-            <div class="modal-footer d-flex justify-content-end align-item-end flex-column">
-              <button type="button" class="btn btn-secondary btn-danger" onClick="closeModal()" id="btn-close-modal" data-dismiss="modal">Close</button>
-            </div>
           </div>
+          <div class="modal-footer d-flex justify-content-end align-item-end flex-column">
+            <button type="button" class="btn btn-secondary btn-danger" onClick="closeModal()" id="btn-close-modal" data-dismiss="modal">Close</button>
+          </div>
+        </div>
               `;
   
           }

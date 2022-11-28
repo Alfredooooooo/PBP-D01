@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 def get_default_my_date():
     return datetime.now()
 
-
 class Question(models.Model):
     # if user is deleted, delete objects (not class) related to user as well
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

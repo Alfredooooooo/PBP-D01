@@ -1,4 +1,5 @@
 from django.contrib import admin
-from.models import BarangWishlist
+from adminpage.models import AdminPage
+
 # Register your models here.
-admin.site.register(BarangWishlist)
+admin.site.register(AdminPage)
