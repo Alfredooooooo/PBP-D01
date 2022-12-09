@@ -54,6 +54,8 @@ def login_user(request):
             data["status"] = True
             data["message"] = "Successfully Logged In!"
             data["username"] = user.username
+            data['idUser'] = user.id
+            print(user.id)
             print("sudah mengembalikan")
             return JsonResponse(data)
         else:
