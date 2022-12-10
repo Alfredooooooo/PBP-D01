@@ -63,7 +63,7 @@ def add_comment(request, id1, id2):
             new_comment.event = event
 
             new_comment.save()
-            return HttpResponse(b"CREATED", status=201)
+            return JsonResponse()
 
     return HttpResponseNotFound()
 
