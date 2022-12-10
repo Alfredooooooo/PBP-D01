@@ -15,7 +15,7 @@ from .models import *
 from .forms import EventForm
 
 
-
+@csrf_exempt
 def index(request):
     form = EventForm()
     context={
@@ -23,6 +23,7 @@ def index(request):
     }
     return render(request, "show-event.html", context)
 
+@csrf_exempt
 def show_recently_viewed_event(request):
     if request.method == 'GET':
         if 'recently_viewed' not in request.session:
@@ -35,6 +36,7 @@ def show_recently_viewed_event(request):
         recently_viewed_events = []
         return HttpResponse(serializers.serialize("json", recently_viewed_events), content_type="application/json")
     
+@csrf_exempt
 def show_detail_event(request, pk):
     global pointer 
     if request.method == 'GET':
@@ -59,36 +61,36 @@ def show_detail_event(request, pk):
         data_event = Event.objects.filter(pk=pk)
         return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
 
-
+@csrf_exempt
 def show_all_event(request):
     if request.method == "GET":
         data_event = Event.objects.all()
         return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
 
-
+@csrf_exempt
 def show_your_event(request):
     if request.method == "GET":
         data_event = Event.objects.filter(user=request.user)
         return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
 
-
-
-def show_now_event(request):
+@csrf_exempt
+def show_ongoing_event(request):
     if request.method == "GET":
-        data_event = Event.objects.filter(start_date__gte=datetime.now, finish_date__lt=datetime.now)
+        data_event = Event.objects.filter(finish_date__gt=datetime.now()).exclude(start_date__gt=datetime.now())
         return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
 
+@csrf_exempt
 def show_past_event(request):
     if request.method == "GET":
-        data_event = Event.objects.filter(finish_date__gt=datetime.now)
+        data_event = Event.objects.filter(finish_date__lt=datetime.now())
         return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
 
+@csrf_exempt
 def show_upcoming_event(request):
     if request.method == "GET":
-        data_event = Event.objects.get(start_date__gt=datetime.now)
+        data_event = Event.objects.filter(start_date__gt=datetime.now())
         return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
-
-
+@csrf_exempt
 def show_event_manager(request):
     data_event = Event.objects.all()
     return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
@@ -105,18 +107,8 @@ def add_new_event(request):
             
         else:
             return JsonResponse({"status": "Failed makew new event"},status=403)
-
-
-
     else:
         return JsonResponse({"status": "Failed makew new event"},status=403)
-
-
-
-
-
-
-   
 
 
 @csrf_exempt
