@@ -38,8 +38,6 @@ def get_event_json(request, id):
                                     'description': event.description}),
                         content_type="application/json")
 
-
-@login_required(login_url='/login/')
 @csrf_exempt
 def add_comment(request, id1, id2):
     if request.method == 'POST' and request.user.is_authenticated:
@@ -63,9 +61,9 @@ def add_comment(request, id1, id2):
             new_comment.event = event
 
             new_comment.save()
-            return JsonResponse()
+            return JsonResponse({'message': 'success'})
 
-    return HttpResponseNotFound()
+    return JsonResponse({'message': 'failed'})
 
 @csrf_exempt
 def delete_comment(request, id):
