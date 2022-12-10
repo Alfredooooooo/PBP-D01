@@ -15,5 +15,6 @@ urlpatterns = [
     path("show/<int:pk>/", show_detail_event, name="show-detail"),
     path('add-event/', add_new_event, name='add-event'),
     path('delete-event/<int:pk>/', delete_event, name='delete-event'),
+    path('get_user_data/<int:pk>/', get_user_data, name='get_user_data'),
 
 ]

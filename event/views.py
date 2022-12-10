@@ -13,6 +13,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from .models import *
 from .forms import EventForm
+from django.contrib.auth import get_user_model
+
 
 
 @csrf_exempt
@@ -125,3 +127,10 @@ def delete_event(request, pk):
         return JsonResponse({"status": "Success delete event"},status=200)
     else:
         return JsonResponse({"status": "Failed delete event"},status=403)
+
+
+@csrf_exempt
+def get_user_data(request, pk):
+    User = get_user_model()
+    user = User.objects.filter(id=pk)
+    return HttpResponse(serializers.serialize("json", user), content_type="application/json")
