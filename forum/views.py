@@ -76,6 +76,3 @@ def delete_comment(request, id):
             return HttpResponse(b"DELETED", status=200)
 
     return HttpResponseNotFound()
-
-def get_username(request):
-    return JsonResponse({'username': f'{request.user.username}'})
