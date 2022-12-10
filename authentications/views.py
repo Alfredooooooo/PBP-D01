@@ -25,7 +25,7 @@ def register_user(request):
             messages.success(
                 request, f"User dengan nama {username} berhasil dibuat")
             # Memindahkan url user ke login agar dapat login
-            return redirect("authentications:login_user")
+            return redirect("authentications:login_page")
         else:
             messages.info(
                 request, "Ada yang salah dalam proses Registrasi. Silahkan coba lagi!")
@@ -55,6 +55,7 @@ def login_user(request):
             data["message"] = "Successfully Logged In!"
             data["username"] = user.username
             data['idUser'] = user.id
+            data['isSuperuser'] = user.is_superuser
             print(user.id)
             print("sudah mengembalikan")
             return JsonResponse(data)

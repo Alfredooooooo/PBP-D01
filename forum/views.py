@@ -8,6 +8,8 @@ from .forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 def show_forum(request, id):
@@ -36,8 +38,7 @@ def get_event_json(request, id):
                                     'description': event.description}),
                         content_type="application/json")
 
-
-@login_required(login_url='/login/')
+@csrf_exempt
 def add_comment(request, id1, id2):
     if request.method == 'POST' and request.user.is_authenticated:
 
@@ -60,16 +61,16 @@ def add_comment(request, id1, id2):
             new_comment.event = event
 
             new_comment.save()
-            return HttpResponse(b"CREATED", status=201)
+            return JsonResponse({'message': 'success'})
 
-    return HttpResponseNotFound()
+    return JsonResponse({'message': 'failed'})
 
-
+@csrf_exempt
 def delete_comment(request, id):
     if request.method == 'POST':
         comment = Comment.objects.get(id=id)
         if comment.user == request.user:
             comment.delete()
-            return HttpResponse(b"DELETED", status=200)
+            return JsonResponse({'message': 'success'})
 
-    return HttpResponseNotFound()
+    return JsonResponse({'message': 'failed'})

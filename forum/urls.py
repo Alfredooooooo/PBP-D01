@@ -1,5 +1,5 @@
 from django.urls import path
-from forum.views import show_forum, get_comments_json, add_comment, delete_comment, get_event_json
+from forum.views import *
 
 app_name = 'forum'
 
