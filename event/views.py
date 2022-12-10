@@ -74,6 +74,12 @@ def show_your_event(request):
         return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
 
 @csrf_exempt
+def show_your_event_flutter(request, pk):
+    if request.method == "GET":
+        data_event = Event.objects.filter(user=pk)
+        return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
+
+@csrf_exempt
 def show_ongoing_event(request):
     if request.method == "GET":
         data_event = Event.objects.filter(finish_date__gt=datetime.now()).exclude(start_date__gt=datetime.now())

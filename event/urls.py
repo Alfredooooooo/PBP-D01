@@ -7,6 +7,7 @@ urlpatterns = [
     path('', index, name="home"),
     path("json-all/", show_all_event, name="json-all"),
     path("json-your/", show_your_event, name="json-your"),
+    path("json-your/<int:pk>/", show_your_event_flutter, name="json-your-flutter"),
     path("json-recent/", show_recently_viewed_event, name="json-recent"),
     path('json-ongoing/', show_ongoing_event, name="json-ongoing"),
     path('json-past/', show_past_event, name="json-past"),
