@@ -71,6 +71,6 @@ def delete_comment(request, id):
         comment = Comment.objects.get(id=id)
         if comment.user == request.user:
             comment.delete()
-            return HttpResponse(b"DELETED", status=200)
+            return JsonResponse({'message': 'success'})
 
-    return HttpResponseNotFound()
+    return JsonResponse({'message': 'failed'})
