@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from adminpage.models import AdminPage
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.core import serializers
 from adminpage.forms import TaskForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from .forms import TaskForm, AdminPageForm
+
 
 # Create your views here.
 @login_required(login_url="/authentications/login/")
@@ -41,5 +44,27 @@ def create_task(request):
     
     context = {'form':form}
     return render(request, "adminpage.html", context)
+
+@csrf_exempt
+def add_new_feedback(request):
+        if request.method == 'POST':
+            form = AdminPageForm(request.POST)
+            if form.is_valid():
+                print('form valid')
+                nw_feedback = form.save(commit=False)
+                form.instance.user = request.user
+                nw_feedback.save()
+                return JsonResponse(
+                    {"fields": {"nama_admin": nw_feedback.nama_admin, "email_admin": nw_feedback.email_admin, "deskripsi": nw_feedback.deskripsi}}
+                )
+            else:
+                print("form ga valid")
+                return JsonResponse({"status": "Failed make new feedback"})
+        else:
+            return JsonResponse({"status": "Failed make new feedback"})
+
+
+
+
 
 
