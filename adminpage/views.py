@@ -17,7 +17,7 @@ def adminpage(request):
 @login_required(login_url="/authentications/login/")
 def get_adminpage_json(request):
     adminpage_item = AdminPage.objects.all()
-    return HttpResponse(serializers.serialize('json', adminpage_item))
+    return JsonResponse(serializers.serialize('json', adminpage_item))
 
 @login_required(login_url="/authentications/login/")
 def add_adminpage_item(request):
