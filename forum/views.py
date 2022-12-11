@@ -24,7 +24,7 @@ def show_forum(request, id):
 
 def get_comments_json(request, id):
     event = Event.objects.get(id=id)
-    comments = Comment.objects.filter(event=event)
+    comments = Comment.objects.filter(event=event).order_by('datetime')
     return HttpResponse(serializers.serialize('json', comments), content_type="application/json")
 
 
