@@ -108,15 +108,24 @@ def add_new_event(request):
     if (request.method == "POST"):
         form = EventForm(request.POST)
         if (form.is_valid()):
+            print("ini 1")
             eventBaru = form.save(commit=False)
             form.instance.user = request.user
             eventBaru.save()
-            return JsonResponse({"status": "Success make new event"},status=200)
+            return JsonResponse({"fields":{
+                "create_date": eventBaru.create_date,
+                "start_date": eventBaru.start_date,
+                "finish_date": eventBaru.finish_date,
+                "title": eventBaru.title,
+                "description": eventBaru.description,
+                "brief": eventBaru.brief,
+            }})
             
         else:
-            return JsonResponse({"status": "Failed makew new event"},status=403)
+            print("ini 2")
+            return JsonResponse({"status": "Failed makew new event"})
     else:
-        return JsonResponse({"status": "Failed makew new event"},status=403)
+        return JsonResponse({"status": "Failed makew new event"})
 
 
 @csrf_exempt
