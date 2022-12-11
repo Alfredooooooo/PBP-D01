@@ -107,6 +107,7 @@ def show_event_manager(request):
 def add_new_event(request):
     if (request.method == "POST"):
         form = EventForm(request.POST)
+        print(request.POST) 
         if (form.is_valid()):
             print("ini 1")
             eventBaru = form.save(commit=False)
