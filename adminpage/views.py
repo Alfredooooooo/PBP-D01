@@ -14,10 +14,10 @@ from .forms import TaskForm, AdminPageForm
 def adminpage(request):
     return render(request, "adminpage.html")
 
-@login_required(login_url="/authentications/login/")
+@csrf_exempt
 def get_adminpage_json(request):
     adminpage_item = AdminPage.objects.all()
-    return JsonResponse(serializers.serialize('json', adminpage_item))
+    return HttpResponse(serializers.serialize('json', adminpage_item))
 
 @login_required(login_url="/authentications/login/")
 def add_adminpage_item(request):
